@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rabobank Case Summary | GitHub Copilot Labs</title>
+  <meta name="description" content="Starter project voor de Rabobank GitHub Copilot labs — vanilla HTML, CSS en JavaScript." />
+
+  <!-- Fonts: Nunito (matches Rabobank's rounded italic heading style) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600;1,700;1,800&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- App header                                              -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <header class="app-header" role="banner">
+    <div class="app-header__brand">
+      <!-- Rabobank logo (inline SVG for no external dep) -->
+      <svg class="app-header__logo" viewBox="0 0 48 48" fill="none" aria-hidden="true"
+           xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="8" fill="#FF6600"/>
+        <text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle"
+              fill="#ffffff" font-size="22" font-weight="bold"
+              font-family="Arial, sans-serif">R</text>
+      </svg>
+      <span class="app-header__title">Case Summary</span>
+    </div>
+
+    <!-- Notification area — Lab 1 will inject banners here -->
+    <div id="notification-area" aria-live="polite" aria-atomic="false"></div>
+
+    <nav class="app-header__nav" aria-label="Hoofdnavigatie">
+      <button class="nav__item" data-nav="cases" aria-current="page">Cases</button>
+      <button class="nav__item" data-nav="admin">Admin</button>
+    </nav>
+
+    <!-- Mode indicator — set by app.js based on USE_REAL_BACKEND -->
+    <span id="mode-badge" class="mode-badge" aria-label="Databron indicator"></span>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- Loading overlay                                         -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="loading-overlay" class="loading-overlay" hidden aria-label="Bezig met laden…" role="status">
+    <div class="spinner" aria-hidden="true"></div>
+    <span class="sr-only">Laden…</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- Main layout                                             -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <main class="app-layout" role="main">
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- CASES view                                          -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <div data-view="cases">
+
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="Case overzicht">
+        <div class="sidebar__filters">
+          <label for="search-input" class="sr-only">Zoek cases</label>
+          <input
+            id="search-input"
+            type="search"
+            class="input"
+            placeholder="Zoek op naam, onderwerp of ID…"
+            aria-label="Zoek cases"
+            autocomplete="off"
+          />
+
+          <label for="status-filter" class="sr-only">Filter op status</label>
+          <select id="status-filter" class="select" aria-label="Filter op status">
+            <option value="all">Alle statussen</option>
+            <option value="open">Open</option>
+            <option value="in-progress">In behandeling</option>
+            <option value="waiting-customer">Wacht op klant</option>
+            <option value="escalated">Escalatie</option>
+            <option value="resolved">Opgelost</option>
+            <option value="closed">Gesloten</option>
+          </select>
+        </div>
+
+        <!-- Case cards rendered here by case-list.js -->
+        <ul id="case-list" class="case-list" aria-label="Cases" role="list"></ul>
+      </aside>
+
+      <!-- Detail panel -->
+      <section class="detail-panel" aria-label="Case detail">
+
+        <!-- Placeholder shown when no case is selected -->
+        <div id="detail-placeholder" class="detail-placeholder">
+          <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" class="detail-placeholder__icon">
+            <circle cx="32" cy="32" r="30" stroke="var(--color-border)" stroke-width="2"/>
+            <path d="M20 32h24M32 20v24" stroke="var(--color-border)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <h2>Selecteer een case</h2>
+          <p>Klik op een case in de lijst om de details te bekijken.</p>
+        </div>
+
+        <!-- Case detail rendered here by case-detail.js -->
+        <div id="case-detail" hidden aria-label="Case details"></div>
+
+      </section>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────── -->
+    <!-- ADMIN view                                          -->
+    <!-- ─────────────────────────────────────────────────── -->
+    <div data-view="admin" hidden>
+      <!-- Admin panel rendered here by admin.js  -->
+      <!-- Lab 4: Find and fix the XSS vulnerability in admin.js -->
+      <div id="admin-panel" class="admin-panel" aria-label="Admin panel"></div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- App footer                                              -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <footer class="app-footer" role="contentinfo">
+    <p>Rabobank Case Summary — GitHub Copilot Labs starter project &nbsp;·&nbsp;
+       <a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer">
+         GitHub Copilot
+       </a>
+    </p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- JS entry point (ES module)                              -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

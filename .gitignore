@@ -1,0 +1,12 @@
+# Dependencies & build output
+node_modules/
+target/
+dist/
+
+# IDE / OS noise
+.DS_Store
+Thumbs.db
+*.log
+
+# Local env
+.env

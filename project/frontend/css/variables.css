@@ -1,0 +1,107 @@
+/* ============================================================
+   CSS Custom Properties — Rabobank Theme
+   All design tokens are defined here.
+   Import this file before styles.css.
+   ============================================================ */
+
+:root {
+  /* ── Brand colours ─────────────────────────────────────── */
+  --color-primary:       #003082;   /* Rabobank deep blue       */
+  --color-primary-light: #0050b3;   /* Hover / active shade     */
+  --color-primary-dark:  #002060;   /* Header / pressed shade   */
+  --color-accent:        #FF6600;   /* Rabobank orange          */
+  --color-accent-hover:  #e55c00;
+  --color-accent-tint:   #FFF4EC;   /* Orange tint bg           */
+  --color-blue-tint:     #EFF6FF;   /* Blue tint bg             */
+  --color-green:         #00A14B;   /* Rabobank green (QR/scan) */
+  --color-green-tint:    #ECFDF5;   /* Green tint bg            */
+
+  /* ── Case status colours ────────────────────────────────── */
+  --color-open:             #0050b3;
+  --color-in-progress:      #D97706;
+  --color-waiting-customer: #7C3AED;
+  --color-escalated:        #DC2626;
+  --color-resolved:         #16A34A;
+  --color-closed:           #6B7280;
+
+  /* ── Priority colours ───────────────────────────────────── */
+  --color-priority-low:      #16A34A;
+  --color-priority-medium:   #CA8A04;
+  --color-priority-high:     #EA580C;
+  --color-priority-critical: #DC2626;
+
+  /* ── Notification colours ───────────────────────────────── */
+  --color-success: #16A34A;
+  --color-warning: #D97706;
+  --color-error:   #DC2626;
+  --color-info:    #0050b3;
+
+  /* ── Neutral palette ────────────────────────────────────── */
+  --color-bg:           #F0F2F5;   /* Slightly blue-tinted gray  */
+  --color-surface:      #FFFFFF;
+  --color-surface-2:    #F8F9FB;
+  --color-border:       #E2E6ED;
+  --color-border-focus: #003082;
+  --color-text:         #0D1B2A;   /* Near-black with blue tint  */
+  --color-text-muted:   #6B7280;
+  --color-text-inverse: #FFFFFF;
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                 Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-heading: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:   'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  --font-size-xs:   11px;
+  --font-size-sm:   12px;
+  --font-size-base: 14px;
+  --font-size-md:   16px;
+  --font-size-lg:   20px;
+  --font-size-xl:   24px;
+  --font-size-2xl:  30px;
+
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  --line-height-tight:  1.25;
+  --line-height-base:   1.5;
+  --line-height-relaxed: 1.75;
+
+  /* ── Spacing scale (4-point grid) ───────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ── Layout ──────────────────────────────────────────────── */
+  --header-height:  68px;
+  --sidebar-width:  330px;
+  --content-max-width: 900px;
+
+  /* ── Borders & Radius ────────────────────────────────────── */
+  --radius-sm:   6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-xs:   0 1px 2px  rgba(0, 0, 0, 0.04);
+  --shadow-sm:   0 1px 4px  rgba(0, 48, 130, 0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:   0 4px 12px rgba(0, 48, 130, 0.10), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg:   0 8px 24px rgba(0, 48, 130, 0.14), 0 4px 8px rgba(0,0,0,0.08);
+  --shadow-card: 0 2px 8px  rgba(0, 48, 130, 0.07), 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-card-hover: 0 6px 20px rgba(0, 48, 130, 0.13), 0 2px 6px rgba(0,0,0,0.07);
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --transition-fast:   100ms ease;
+  --transition-base:   200ms ease;
+  --transition-slow:   350ms ease;
+}

@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Copilot Customization Guide</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:  '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    .gradient-hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); }
+    .card-glow:hover { box-shadow: 0 0 0 1px rgba(34,197,94,0.3), 0 8px 32px rgba(34,197,94,0.08); }
+    .badge-green { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
+    .badge-blue  { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25); }
+    .badge-yellow{ background: rgba(234,179,8,0.12); color: #facc15; border: 1px solid rgba(234,179,8,0.25); }
+    .badge-purple{ background: rgba(168,85,247,0.12); color: #c084fc; border: 1px solid rgba(168,85,247,0.25); }
+    .badge-orange{ background: rgba(249,115,22,0.12); color: #fb923c; border: 1px solid rgba(249,115,22,0.25); }
+    pre { scrollbar-width: thin; scrollbar-color: #334155 transparent; }
+    pre::-webkit-scrollbar { height: 4px; }
+    pre::-webkit-scrollbar-track { background: transparent; }
+    pre::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+    .tree-line { font-family: 'JetBrains Mono', monospace; }
+    .step-connector { background: linear-gradient(to bottom, #22c55e, transparent); }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-[#0f172a] text-slate-200 font-sans antialiased">
+
+  <!-- ─── NAV ─────────────────────────────────────────────────────────── -->
+  <nav class="sticky top-0 z-50 bg-[#0f172a]/90 backdrop-blur border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+      <div class="flex items-center gap-2">
+        <!-- Copilot-ish icon -->
+        <svg class="w-6 h-6 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v4l3 3"/>
+        </svg>
+        <span class="font-semibold text-white text-sm">GitHub Copilot Customization</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6 text-xs font-medium text-slate-400">
+        <a href="#decision-tree"    class="hover:text-brand-400 transition-colors">Decision Tree</a>
+        <a href="#type1"            class="hover:text-brand-400 transition-colors">Instructions</a>
+        <a href="#type2"            class="hover:text-brand-400 transition-colors">Path-Specific</a>
+        <a href="#type3"            class="hover:text-brand-400 transition-colors">Prompts</a>
+        <a href="#type4"            class="hover:text-brand-400 transition-colors">Skills</a>
+        <a href="#type5"            class="hover:text-brand-400 transition-colors">Agents</a>
+        <a href="#comparison"       class="hover:text-brand-400 transition-colors">Comparison</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─────────────────────────────────────────────────────────── -->
+  <header class="gradient-hero py-20 px-4 text-center relative overflow-hidden">
+    <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 25% 50%, #22c55e 0%, transparent 60%), radial-gradient(circle at 75% 50%, #3b82f6 0%, transparent 60%);"></div>
+    <div class="relative max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 badge-green rounded-full px-3 py-1 text-xs font-medium mb-6">
+        <!-- Target icon -->
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        GitHub Copilot Customization Guide
+      </div>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4 tracking-tight">
+        When to Use<br/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-blue-400">Instructions, Prompts, Skills &amp; Agents</span>
+      </h1>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+        A complete reference for choosing the right customization type — so Copilot always knows your project, your standards, and your workflow.
+      </p>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+
+    <!-- ─── DECISION TREE ─────────────────────────────────────────────── -->
+    <section id="decision-tree">
+      <div class="flex items-center gap-3 mb-10">
+        <!-- Tree icon -->
+        <div class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-white">Quick Decision Tree</h2>
+          <p class="text-slate-400 text-sm">Start here when deciding which customization type to use</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8">
+        <div class="space-y-4 max-w-2xl">
+
+          <!-- Step 1 -->
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="w-8 h-8 rounded-full bg-brand-500/20 border border-brand-500/40 flex items-center justify-center flex-shrink-0">
+                <span class="text-brand-400 text-xs font-bold">1</span>
+              </div>
+              <div class="w-px flex-1 step-connector mt-2"></div>
+            </div>
+            <div class="pb-6 flex-1">
+              <p class="text-slate-300 font-medium mb-1">Should this apply to <span class="text-white font-semibold">EVERY</span> interaction?</p>
+              <p class="text-slate-500 text-sm mb-3">Think: coding standards, project conventions, response style preferences</p>
+              <div class="flex items-start gap-2">
+                <span class="badge-green rounded px-2 py-0.5 text-xs font-medium flex-shrink-0 mt-0.5">YES →</span>
+                <div>
+                  <p class="text-brand-400 font-semibold text-sm">Use: <code class="bg-slate-800 px-1.5 py-0.5 rounded text-brand-300">.github/copilot-instructions.md</code></p>
+                  <p class="text-slate-500 text-xs mt-0.5">Always loaded, applies universally across the entire repository</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center flex-shrink-0">
+                <span class="text-blue-400 text-xs font-bold">2</span>
+              </div>
+              <div class="w-px flex-1 step-connector mt-2"></div>
+            </div>
+            <div class="pb-6 flex-1">
+              <p class="text-slate-300 font-medium mb-1">Should it apply only to <span class="text-white font-semibold">SPECIFIC</span> file types or directories?</p>
+              <p class="text-slate-500 text-sm mb-3">Think: Kotlin rules for .kt files, Java rules for .java files, Gradle conventions for build.gradle.kts</p>
+              <div class="flex items-start gap-2">
+                <span class="badge-blue rounded px-2 py-0.5 text-xs font-medium flex-shrink-0 mt-0.5">YES →</span>
+                <div>
+                  <p class="text-blue-400 font-semibold text-sm">Use: <code class="bg-slate-800 px-1.5 py-0.5 rounded text-blue-300">.github/instructions/*.instructions.md</code></p>
+                  <p class="text-slate-500 text-xs mt-0.5">Conditionally loaded based on applyTo glob patterns</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="w-8 h-8 rounded-full bg-yellow-500/20 border border-yellow-500/40 flex items-center justify-center flex-shrink-0">
+                <span class="text-yellow-400 text-xs font-bold">3</span>
+              </div>
+              <div class="w-px flex-1 step-connector mt-2"></div>
+            </div>
+            <div class="pb-6 flex-1">
+              <p class="text-slate-300 font-medium mb-1">Is it a <span class="text-white font-semibold">REUSABLE</span> task you'll invoke manually?</p>
+              <p class="text-slate-500 text-sm mb-3">Think: scaffolding REST endpoints, generating service tests, code reviews</p>
+              <div class="flex items-start gap-2">
+                <span class="badge-yellow rounded px-2 py-0.5 text-xs font-medium flex-shrink-0 mt-0.5">YES →</span>
+                <div>
+                  <p class="text-yellow-400 font-semibold text-sm">Use: <code class="bg-slate-800 px-1.5 py-0.5 rounded text-yellow-300">.github/prompts/*.prompt.md</code></p>
+                  <p class="text-slate-500 text-xs mt-0.5">Loaded only when you type /prompt-name</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center flex-shrink-0">
+                <span class="text-purple-400 text-xs font-bold">4</span>
+              </div>
+              <div class="w-px flex-1 step-connector mt-2"></div>
+            </div>
+            <div class="pb-6 flex-1">
+              <p class="text-slate-300 font-medium mb-1">Is it a <span class="text-white font-semibold">COMPLEX</span> workflow with scripts/resources?</p>
+              <p class="text-slate-500 text-sm mb-3">Think: debugging CI/CD, security reviews, multi-step processes</p>
+              <div class="flex items-start gap-2">
+                <span class="badge-purple rounded px-2 py-0.5 text-xs font-medium flex-shrink-0 mt-0.5">YES →</span>
+                <div>
+                  <p class="text-purple-400 font-semibold text-sm">Use: <code class="bg-slate-800 px-1.5 py-0.5 rounded text-purple-300">.github/skills/*/SKILL.md</code></p>
+                  <p class="text-slate-500 text-xs mt-0.5">Auto-loaded when description matches, includes bundled resources</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="w-8 h-8 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center flex-shrink-0">
+                <span class="text-orange-400 text-xs font-bold">5</span>
+              </div>
+            </div>
+            <div class="flex-1">
+              <p class="text-slate-300 font-medium mb-1">Is it a <span class="text-white font-semibold">PERSISTENT</span> persona for specific workflows?</p>
+              <p class="text-slate-500 text-sm mb-3">Think: "Backend Expert", "Security Reviewer", "Incident Debugger"</p>
+              <div class="flex items-start gap-2">
+                <span class="badge-orange rounded px-2 py-0.5 text-xs font-medium flex-shrink-0 mt-0.5">YES →</span>
+                <div>
+                  <p class="text-orange-400 font-semibold text-sm">Use: <span class="bg-slate-800 px-1.5 py-0.5 rounded text-orange-300 font-mono text-xs">Custom Agent</span></p>
+                  <p class="text-slate-500 text-xs mt-0.5">Explicitly selected, orchestrates multiple skills and tools</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── TYPE CARDS GRID ───────────────────────────────────────────── -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Card 1 -->
+      <a href="#type1" class="group bg-slate-900 border border-slate-800 rounded-2xl p-6 card-glow transition-all duration-300 hover:-translate-y-1">
+        <div class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <span class="badge-green rounded-full px-2 py-0.5 text-xs font-medium">Always Active</span>
+        <h3 class="text-white font-bold text-lg mt-3 mb-1">Repository Instructions</h3>
+        <p class="text-slate-400 text-sm"><code class="text-brand-300">.github/copilot-instructions.md</code></p>
+        <p class="text-slate-500 text-xs mt-2">Universal standards, tech stack, coding style, response preferences</p>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="#type2" class="group bg-slate-900 border border-slate-800 rounded-2xl p-6 card-glow transition-all duration-300 hover:-translate-y-1">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <span class="badge-blue rounded-full px-2 py-0.5 text-xs font-medium">File Match</span>
+        <h3 class="text-white font-bold text-lg mt-3 mb-1">Path-Specific Instructions</h3>
+        <p class="text-slate-400 text-sm"><code class="text-blue-300">.github/instructions/*.instructions.md</code></p>
+        <p class="text-slate-500 text-xs mt-2">Language rules, area conventions, test patterns via applyTo globs</p>
+      </a>
+
+      <!-- Card 3 -->
+      <a href="#type3" class="group bg-slate-900 border border-slate-800 rounded-2xl p-6 card-glow transition-all duration-300 hover:-translate-y-1">
+        <div class="w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <span class="badge-yellow rounded-full px-2 py-0.5 text-xs font-medium">On Command</span>
+        <h3 class="text-white font-bold text-lg mt-3 mb-1">Prompt Files</h3>
+        <p class="text-slate-400 text-sm"><code class="text-yellow-300">.github/prompts/*.prompt.md</code></p>
+        <p class="text-slate-500 text-xs mt-2">Scaffolding, reviews, documentation generation — invoke with /name</p>
+      </a>
+
+      <!-- Card 4 -->
+      <a href="#type4" class="group bg-slate-900 border border-slate-800 rounded-2xl p-6 card-glow transition-all duration-300 hover:-translate-y-1">
+        <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <span class="badge-purple rounded-full px-2 py-0.5 text-xs font-medium">Semantic Match</span>
+        <h3 class="text-white font-bold text-lg mt-3 mb-1">Agent Skills</h3>
+        <p class="text-slate-400 text-sm"><code class="text-purple-300">.github/skills/*/SKILL.md</code></p>
+        <p class="text-slate-500 text-xs mt-2">CI/CD, security, complex processes with bundled scripts &amp; references</p>
+      </a>
+
+      <!-- Card 5 -->
+      <a href="#type5" class="group bg-slate-900 border border-slate-800 rounded-2xl p-6 card-glow transition-all duration-300 hover:-translate-y-1">
+        <div class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+        </div>
+        <span class="badge-orange rounded-full px-2 py-0.5 text-xs font-medium">Explicit Select</span>
+        <h3 class="text-white font-bold text-lg mt-3 mb-1">Custom Agents</h3>
+        <p class="text-slate-400 text-sm"><code class="text-orange-300">Agent Configuration</code></p>
+        <p class="text-slate-500 text-xs mt-2">Backend Expert, Incident Debugger — persistent personas for entire sessions</p>
+      </a>
+
+      <!-- Card Tip -->
+      <div class="bg-gradient-to-br from-brand-900/30 to-blue-900/20 border border-brand-800/40 rounded-2xl p-6">
+        <div class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3 class="text-white font-bold text-lg mb-2">Pro Tip</h3>
+        <p class="text-slate-400 text-sm">Path-specific instructions <span class="text-white font-medium">combine</span> with repository-wide instructions. Editing <code class="text-brand-300 text-xs">PaymentOrchestrator.kt</code>? Both <code class="text-brand-300 text-xs">copilot-instructions.md</code> <em>and</em> <code class="text-brand-300 text-xs">kotlin-service.instructions.md</code> are loaded together.</p>
+      </div>
+    </div>
+
+    <!-- ─── TYPE 1 ─────────────────────────────────────────────────────── -->
+    <section id="type1" class="scroll-mt-20">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-500 text-sm font-medium">📁 Type 1</span>
+            <span class="badge-green rounded-full px-2 py-0.5 text-xs font-medium">Always Active</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Repository-Wide Instructions</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-brand-400 font-semibold mb-4 flex items-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            When to Use
+          </h3>
+          <div class="space-y-4">
+            <div class="flex gap-3">
+              <div class="w-1.5 h-1.5 rounded-full bg-brand-400 flex-shrink-0 mt-2"></div>
+              <div>
+                <p class="text-white text-sm font-medium">Project Overview</p>
+                <p class="text-slate-500 text-xs">"Copilot doesn't understand our architecture" → Explain tech stack, folder structure, service communication</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-1.5 h-1.5 rounded-full bg-brand-400 flex-shrink-0 mt-2"></div>
+              <div>
+                <p class="text-white text-sm font-medium">Coding Standards</p>
+                <p class="text-slate-500 text-xs">"Generated code doesn't follow our conventions" → Naming, code style, linting rules</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-1.5 h-1.5 rounded-full bg-brand-400 flex-shrink-0 mt-2"></div>
+              <div>
+                <p class="text-white text-sm font-medium">Build/Test Commands</p>
+                <p class="text-slate-500 text-xs">"Copilot suggests wrong build commands" → Build, test, deploy, common commands</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-1.5 h-1.5 rounded-full bg-brand-400 flex-shrink-0 mt-2"></div>
+              <div>
+                <p class="text-white text-sm font-medium">Response Style</p>
+                <p class="text-slate-500 text-xs">"Copilot's answers are too verbose" → Response length, formatting, tone</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-brand-400 font-semibold mb-4 flex items-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+            Properties
+          </h3>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-slate-800 rounded-lg p-3">
+              <p class="text-slate-500 text-xs mb-1">Loading</p>
+              <p class="text-white text-sm font-medium">Always Automatic</p>
+            </div>
+            <div class="bg-slate-800 rounded-lg p-3">
+              <p class="text-slate-500 text-xs mb-1">Scope</p>
+              <p class="text-white text-sm font-medium">Entire repository</p>
+            </div>
+            <div class="bg-slate-800 rounded-lg p-3">
+              <p class="text-slate-500 text-xs mb-1">Best For</p>
+              <p class="text-white text-sm font-medium">Universal standards</p>
+            </div>
+            <div class="bg-slate-800 rounded-lg p-3">
+              <p class="text-slate-500 text-xs mb-1">Priority</p>
+              <p class="text-white text-sm font-medium">Medium</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+        <div class="flex items-center gap-2 px-5 py-3 bg-slate-800/60 border-b border-slate-700">
+          <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-500/70"></div><div class="w-3 h-3 rounded-full bg-yellow-500/70"></div><div class="w-3 h-3 rounded-full bg-green-500/70"></div></div>
+          <span class="text-slate-400 text-xs font-mono ml-2">.github/copilot-instructions.md — Banking Backend Platform Example</span>
+        </div>
+        <pre class="p-5 text-xs font-mono text-slate-300 overflow-x-auto leading-relaxed"><code><span class="text-slate-500"># .github/copilot-instructions.md</span>
+
+<span class="text-brand-400"># Project Overview</span>
+Backend services platform for payments, customer onboarding, and transaction processing.
+Microservices architecture: API Gateway → Spring Boot services → Kafka → PostgreSQL.
+Handles payment orchestration, account validation, ledger integration, and audit trails.
+
+<span class="text-brand-400"># Tech Stack</span>
+<span class="text-blue-300">- Languages:</span> Java 21, Kotlin 2.x
+<span class="text-blue-300">- Framework:</span> Spring Boot 3, Spring MVC, Spring Data JPA
+<span class="text-blue-300">- Build:</span> Gradle with Kotlin DSL
+<span class="text-blue-300">- Messaging:</span> Kafka
+<span class="text-blue-300">- Database:</span> PostgreSQL 15
+<span class="text-blue-300">- Testing:</span> JUnit 5, MockK/Mockito, Testcontainers
+
+<span class="text-brand-400"># Universal Coding Standards</span>
+- Prefer constructor injection; never use field injection
+- Keep controllers thin and move business logic into services/use cases
+- Use immutable DTOs and explicit validation annotations
+- Prefer Kotlin data classes and null-safety in .kt files
+- Never log sensitive financial data (IBAN, account IDs, balances, tokens)
+
+<span class="text-brand-400"># Build Commands</span>
+- Development: <span class="text-yellow-300">`./gradlew bootRun`</span>
+- Build:       <span class="text-yellow-300">`./gradlew build`</span>
+- Test:        <span class="text-yellow-300">`./gradlew test`</span>
+- Verify:      <span class="text-yellow-300">`./gradlew check`</span>
+
+<span class="text-brand-400"># Response Preferences</span>
+- Keep responses concise (under 10 lines when possible)
+- Show Kotlin examples for <span class="text-yellow-300">.kt</span> files and Java examples for <span class="text-yellow-300">.java</span> files
+- Prefer Gradle Kotlin DSL snippets over Maven XML</code></pre>
+      </div>
+    </section>
+
+    <!-- ─── TYPE 2 ─────────────────────────────────────────────────────── -->
+    <section id="type2" class="scroll-mt-20">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-500 text-sm font-medium">🎯 Type 2</span>
+            <span class="badge-blue rounded-full px-2 py-0.5 text-xs font-medium">File Match</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Path-Specific Instructions</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-blue-400 text-xs font-medium mb-1">Language-Specific</p>
+          <p class="text-white text-sm font-medium">Java services vs Kotlin services</p>
+          <p class="text-slate-500 text-xs mt-1">Separate instruction files per area</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-blue-400 text-xs font-medium mb-1">Application Layers</p>
+          <p class="text-white text-sm font-medium">API vs domain vs persistence</p>
+          <p class="text-slate-500 text-xs mt-1">controller/ vs service/ vs repository/</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-blue-400 text-xs font-medium mb-1">Testing</p>
+          <p class="text-white text-sm font-medium">**/*Test.java and **/*Test.kt</p>
+          <p class="text-slate-500 text-xs mt-1">JUnit 5, Testcontainers, service and controller tests</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-blue-400 text-xs font-medium mb-1">Legacy Code</p>
+          <p class="text-white text-sm font-medium">legacy/ folder</p>
+          <p class="text-slate-500 text-xs mt-1">Bug fixes only, no refactoring</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+        <div class="flex items-center gap-2 px-5 py-3 bg-slate-800/60 border-b border-slate-700">
+          <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-500/70"></div><div class="w-3 h-3 rounded-full bg-yellow-500/70"></div><div class="w-3 h-3 rounded-full bg-green-500/70"></div></div>
+              <span class="text-slate-400 text-xs font-mono ml-2">Banking platform — Java, Kotlin, and Gradle examples</span>
+        </div>
+            <pre class="p-5 text-xs font-mono text-slate-300 overflow-x-auto leading-relaxed"><code><span class="text-slate-500"># .github/instructions/kotlin-service.instructions.md</span>
+<span class="text-purple-300">---
+        applyTo: "src/main/kotlin/**/*.kt"
+---</span>
+
+        <span class="text-brand-400"># Kotlin Service Guidelines</span>
+        - Prefer data classes and sealed interfaces for DTOs and result types
+        - Keep nullability explicit; avoid <span class="text-blue-300">!!</span> unless there is a hard invariant
+        - Use constructor injection and keep Spring annotations minimal
+        - Keep controllers orchestration-only; business rules stay in services
+        - Never expose or log raw financial identifiers or tokens
+
+
+        <span class="text-slate-500"># .github/instructions/java-service.instructions.md</span>
+<span class="text-purple-300">---
+        applyTo: "src/main/java/**/*.java"
+---</span>
+
+        <span class="text-brand-400"># Java Service Guidelines</span>
+        - Use Spring Boot for controllers, services, and scheduled jobs
+        - Prefer records for simple request/response DTOs when appropriate
+        - Use Bean Validation annotations for request validation
+        - Isolate mapping logic; do not mix persistence entities with API contracts
+        - Document public endpoints with OpenAPI annotations when the service exposes REST APIs
+
+
+        <span class="text-slate-500"># .github/instructions/gradle.instructions.md</span>
+        <span class="text-purple-300">---
+        applyTo: "build.gradle.kts,settings.gradle.kts,gradle.properties,gradle/libs.versions.toml"
+        ---</span>
+
+        <span class="text-brand-400"># Gradle Build Guidelines</span>
+        - Prefer Kotlin DSL for new build logic
+        - Keep dependency versions centralized in version catalogs where available
+        - Use custom Gradle tasks for repeatable developer workflows
+        - Avoid plugin sprawl; justify each plugin with a concrete need
+        - Keep CI commands aligned with <span class="text-yellow-300">./gradlew clean build test check</span>
+
+
+<span class="text-slate-500"># .github/instructions/testing.instructions.md</span>
+<span class="text-purple-300">---
+        applyTo: "src/test/java/**/*.java,src/test/kotlin/**/*.kt,**/*Test.java,**/*Test.kt"
+---</span>
+
+<span class="text-brand-400"># Testing Standards</span>
+        - Use JUnit 5 for test orchestration
+        - Prefer MockK for Kotlin and Mockito for Java where mocking is needed
+        - Use Testcontainers for database and Kafka integration tests
+        - Test observable business behavior, not framework internals
+        - Each test should be deterministic and independent</code></pre>
+      </div>
+    </section>
+
+    <!-- ─── TYPE 3 ─────────────────────────────────────────────────────── -->
+    <section id="type3" class="scroll-mt-20">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-500 text-sm font-medium">⚡ Type 3</span>
+            <span class="badge-yellow rounded-full px-2 py-0.5 text-xs font-medium">On Command</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Prompt Files</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <code class="text-yellow-300 text-xs">/new-api-endpoint</code>
+          <p class="text-white text-sm font-medium mt-1">Endpoint Scaffolding</p>
+          <p class="text-slate-500 text-xs mt-1">Controllers, services, DTOs, and tests with consistent structure</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <code class="text-yellow-300 text-xs">/security-review</code>
+          <p class="text-white text-sm font-medium mt-1">Code Reviews</p>
+          <p class="text-slate-500 text-xs mt-1">Security, logging, and data exposure review checklist</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <code class="text-yellow-300 text-xs">/generate-docs</code>
+          <p class="text-white text-sm font-medium mt-1">Documentation</p>
+          <p class="text-slate-500 text-xs mt-1">Generate API docs in specific format</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <code class="text-yellow-300 text-xs">/create-tests</code>
+          <p class="text-white text-sm font-medium mt-1">Test Generation</p>
+          <p class="text-slate-500 text-xs mt-1">JUnit 5 service and controller tests with clear fixtures</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-2 px-5 py-3 bg-slate-800/60 border-b border-slate-700">
+            <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-500/70"></div><div class="w-3 h-3 rounded-full bg-yellow-500/70"></div><div class="w-3 h-3 rounded-full bg-green-500/70"></div></div>
+            <span class="text-slate-400 text-xs font-mono ml-2">new-api-endpoint.prompt.md</span>
+          </div>
+          <pre class="p-5 text-xs font-mono text-slate-300 overflow-x-auto leading-relaxed"><code><span class="text-purple-300">---
+agent: 'agent'
+          model: GPT-5.2
+description: 'Generate a new Spring Boot endpoint with tests'
+---</span>
+
+<span class="text-brand-400"># Create Banking API Endpoint</span>
+Generate a new backend endpoint for the banking platform:
+
+<span class="text-blue-300">Language:</span> <span class="text-yellow-300">${input:language:kotlin or java}</span>
+<span class="text-blue-300">Feature Name:</span> <span class="text-yellow-300">${input:featureName:e.g. PaymentLimit, AccountStatus}</span>
+<span class="text-blue-300">File Extension:</span> <span class="text-yellow-300">${input:fileExtension:kt or java}</span>
+
+<span class="text-brand-400">Requirements:</span>
+1. Create controller, service, request/response DTOs, and tests in the correct <span class="text-yellow-300">src/main</span> and <span class="text-yellow-300">src/test</span> folders
+2. Use Spring Boot conventions with constructor injection only
+3. Validate input with Bean Validation annotations
+4. Do not expose or log IBANs, account IDs, balances, or tokens
+5. Add JUnit 5 tests and use MockK or Mockito depending on the language
+6. Include Gradle task notes for running the new tests locally
+
+<span class="text-brand-400">Files to create:</span>
+- <span class="text-yellow-300">${input:featureName}Controller.${input:fileExtension}</span>
+- <span class="text-yellow-300">${input:featureName}Service.${input:fileExtension}</span>
+- <span class="text-yellow-300">${input:featureName}Request.${input:fileExtension}</span>
+- <span class="text-yellow-300">${input:featureName}ControllerTest.${input:fileExtension}</span></code></pre>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-2 px-5 py-3 bg-slate-800/60 border-b border-slate-700">
+            <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-500/70"></div><div class="w-3 h-3 rounded-full bg-yellow-500/70"></div><div class="w-3 h-3 rounded-full bg-green-500/70"></div></div>
+            <span class="text-slate-400 text-xs font-mono ml-2">api-security-review.prompt.md</span>
+          </div>
+          <pre class="p-5 text-xs font-mono text-slate-300 overflow-x-auto leading-relaxed"><code><span class="text-purple-300">---
+agent: 'agent'
+description: 'Security review for API endpoints'
+---</span>
+
+<span class="text-brand-400"># API Security Review</span>
+Review the selected API code for vulnerabilities:
+
+<span class="text-red-400">1. Authentication/Authorization</span>
+  - OAuth 2.0 / OIDC token validation
+  - Role-based access control (customer vs. employee vs. batch)
+  - Service-to-service trust boundaries and token propagation
+
+<span class="text-red-400">2. Input Validation</span>
+  - Bean Validation coverage and missing constraints
+  - Unsafe deserialization or mass assignment risks
+  - IBAN, account number, and payment reference validation
+
+<span class="text-red-400">3. Data Exposure</span>
+  - PII and financial data (IBAN, balance) in responses and logs
+   - Error message information leakage
+  - Accidental logging of transaction amounts, account IDs, or tokens
+
+<span class="text-red-400">4. Rate Limiting</span>
+   - Payment endpoint protection
+  - Brute-force, replay, and enumeration mitigation
+
+<span class="text-red-400">5. Backend-Specific Risks</span>
+  - Missing idempotency handling for payments
+  - Transaction boundary issues and inconsistent retries
+  - SSRF or unsafe outbound calls to downstream services
+
+Provide line numbers and remediation steps.</code></pre>
+        </div>
+      </div>
+
+      <div class="mt-4 bg-yellow-900/20 border border-yellow-800/40 rounded-xl p-4 flex gap-3">
+        <svg class="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p class="text-yellow-200 text-sm">In Copilot Chat, type <code class="bg-slate-800 px-1.5 py-0.5 rounded text-yellow-300">/new-api-endpoint</code> and you'll be prompted for the language and feature name. The prompt file guides Copilot to generate controller, service, DTO, and test files according to your backend standards.</p>
+      </div>
+    </section>
+
+    <!-- ─── TYPE 4 ─────────────────────────────────────────────────────── -->
+    <section id="type4" class="scroll-mt-20">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-500 text-sm font-medium">🎓 Type 4</span>
+            <span class="badge-purple rounded-full px-2 py-0.5 text-xs font-medium">Semantic Match</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Agent Skills</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-purple-400 text-xs font-medium mb-1">Build Debugging</p>
+          <p class="text-white text-sm font-medium">gradle-build-debugging</p>
+          <p class="text-slate-500 text-xs mt-1">Gradle task failures, dependency conflicts, and fixes</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-purple-400 text-xs font-medium mb-1">Database Migrations</p>
+          <p class="text-white text-sm font-medium">database-migration</p>
+          <p class="text-slate-500 text-xs mt-1">Migration scripts, rollback procedures</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-purple-400 text-xs font-medium mb-1">Performance</p>
+          <p class="text-white text-sm font-medium">performance-analyzer</p>
+          <p class="text-slate-500 text-xs mt-1">Profiling scripts, benchmark data</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <p class="text-purple-400 text-xs font-medium mb-1">Security</p>
+          <p class="text-white text-sm font-medium">security-audit</p>
+          <p class="text-slate-500 text-xs mt-1">Scanning tools, PCI compliance references</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-2 px-5 py-3 bg-slate-800/60 border-b border-slate-700">
+            <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-500/70"></div><div class="w-3 h-3 rounded-full bg-yellow-500/70"></div><div class="w-3 h-3 rounded-full bg-green-500/70"></div></div>
+            <span class="text-slate-400 text-xs font-mono ml-2">.github/skills/gradle-build-debugging/SKILL.md</span>
+          </div>
+           <pre class="p-5 text-xs font-mono text-slate-300 overflow-x-auto leading-relaxed"><code><span class="text-purple-300">---
+    name: gradle-build-debugging
+    description: Debug failing Gradle builds for Java and Kotlin services. Use when
+      CI/CD fails, builds break, dependency resolution loops, or tests do not start.
+    ---</span>
+
+<span class="text-brand-400"># Debugging Process</span>
+
+<span class="text-blue-300">1. Identify the failure</span>
+      - Check the failing Gradle task
+      - Identify whether the issue is compile, test, dependency, or plugin related
+      - Review stack traces and the first meaningful error
+
+<span class="text-blue-300">2. Analyze logs</span>
+      - Use <span class="text-yellow-300">scripts/collect-gradle-scan.sh</span> to capture task output
+      - Check <span class="text-yellow-300">references/common-gradle-errors.md</span>
+      - Inspect Java version, Gradle wrapper version, and dependency lock state
+
+<span class="text-blue-300">3. Common Issues &amp; Fixes</span>
+   
+      Issue: Dependency conflict
+      - Check version catalog and transitive dependency trees
+      - Run <span class="text-yellow-300">`./gradlew dependencies`</span>
+
+      Issue: Test failures in CI only
+      - Check containerized test assumptions and port collisions
+      - Use <span class="text-yellow-300">`./gradlew test --info`</span>
+
+<span class="text-blue-300">4. Fix and validate</span>
+      - Apply fix locally first
+      - Re-run the failing task in isolation
+      - Run <span class="text-yellow-300">`./gradlew clean build`</span> before pushing
+
+<span class="text-brand-400"># Available Resources</span>
+    - <span class="text-yellow-300">scripts/collect-gradle-scan.sh</span>   - Capture build diagnostics
+    - <span class="text-yellow-300">scripts/verify-wrapper.sh</span>        - Validate wrapper and Java version
+    - <span class="text-yellow-300">references/common-gradle-errors.md</span> - Known issues</code></pre>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+            <h4 class="text-purple-400 font-semibold text-sm mb-3 flex items-center gap-2">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              Directory Structure
+            </h4>
+            <pre class="text-xs font-mono text-slate-400 leading-relaxed tree-line"><code>.github/skills/
+      └── gradle-build-debugging/
+    ├── <span class="text-white">SKILL.md</span>
+    ├── scripts/
+        │   ├── collect-gradle-scan.sh
+        │   ├── verify-wrapper.sh
+        │   └── dependency-tree.sh
+    ├── references/
+        │   ├── common-gradle-errors.md
+        │   ├── build-patterns.md
+    │   └── test-data/
+    └── examples/
+          └── fixed-build.gradle.kts</code></pre>
+          </div>
+          <div class="bg-purple-900/20 border border-purple-800/40 rounded-xl p-4">
+            <h4 class="text-purple-300 font-semibold text-sm mb-2">How it activates</h4>
+            <div class="space-y-2 text-xs text-slate-400">
+              <div class="flex gap-2"><span class="text-purple-400 font-bold">1.</span> Query is semantically matched</div>
+              <div class="flex gap-2"><span class="text-purple-400 font-bold">2.</span> SKILL.md loads automatically</div>
+              <div class="flex gap-2"><span class="text-purple-400 font-bold">3.</span> Scripts become executable</div>
+              <div class="flex gap-2"><span class="text-purple-400 font-bold">4.</span> References are available as context</div>
+            </div>
+          </div>
+          <div class="bg-slate-900 border border-yellow-800/40 rounded-xl p-4">
+            <p class="text-yellow-300 text-xs font-semibold mb-1">
+              <svg class="w-3.5 h-3.5 inline mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Key Difference from Prompts
+            </p>
+            <p class="text-slate-400 text-xs">Skills are <span class="text-white">automatic</span> and include <span class="text-white">bundled resources</span>. Prompts are <span class="text-white">manual</span> and are just text templates.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── TYPE 5 ─────────────────────────────────────────────────────── -->
+    <section id="type5" class="scroll-mt-20">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-500 text-sm font-medium">🤖 Type 5</span>
+            <span class="badge-orange rounded-full px-2 py-0.5 text-xs font-medium">Explicit Select</span>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Custom Agents</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center mb-2">
+            <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg>
+          </div>
+          <p class="text-white text-sm font-medium">Backend Expert</p>
+          <p class="text-slate-500 text-xs mt-1">Java/Kotlin and Gradle specialist for banking services</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="w-8 h-8 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center mb-2">
+            <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <p class="text-white text-sm font-medium">Bug Hunter</p>
+          <p class="text-slate-500 text-xs mt-1">Retries, concurrency, and payment orchestration bugs</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="w-8 h-8 rounded-full bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center mb-2">
+            <svg class="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <p class="text-white text-sm font-medium">Security Reviewer</p>
+          <p class="text-slate-500 text-xs mt-1">Financial data security &amp; compliance checks</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="w-8 h-8 rounded-full bg-brand-500/20 border border-brand-500/30 flex items-center justify-center mb-2">
+            <svg class="w-4 h-4 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <p class="text-white text-sm font-medium">Mentor</p>
+          <p class="text-slate-500 text-xs mt-1">Onboarding junior developers</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+        <div class="flex items-center gap-2 px-5 py-3 bg-slate-800/60 border-b border-slate-700">
+          <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-500/70"></div><div class="w-3 h-3 rounded-full bg-yellow-500/70"></div><div class="w-3 h-3 rounded-full bg-green-500/70"></div></div>
+          <span class="text-slate-400 text-xs font-mono ml-2">Backend Expert — Custom Agent Configuration</span>
+        </div>
+        <pre class="p-5 text-xs font-mono text-slate-300 overflow-x-auto leading-relaxed"><code><span class="text-brand-400">## Behavior</span>
+You are a backend development expert for banking applications, specializing in:
+- Java 21, Kotlin 2.x, and Spring Boot 3 services
+- Gradle build logic and dependency management
+- Secure API design, validation, and transactional consistency
+- Kafka-based event processing and resilience patterns
+- Performance tuning for synchronous and asynchronous service flows
+
+<span class="text-brand-400">## Approach</span>
+1. Keep controllers thin and business logic inside services or use cases
+2. Prioritize correctness, observability, and safe failure behavior
+3. Prevent leakage of IBANs, account IDs, balances, and tokens in logs and responses
+4. Prefer idempotent designs for payment and transfer operations
+5. Validate with unit tests and integration tests before proposing larger refactors
+
+<span class="text-brand-400">## When helping with code:</span>
+- Suggest Kotlin for <span class="text-yellow-300">.kt</span> files and Java for <span class="text-yellow-300">.java</span> files
+- Recommend constructor injection, explicit validation, and transaction boundaries
+- Flag missing retry, timeout, circuit breaker, and idempotency handling
+- Add Gradle commands when verification matters
+- Prefer Testcontainers for realistic integration tests
+
+<span class="text-brand-400">## Skills to use:</span>
+- gradle-build-debugging
+- security-audit
+- performance-analyzer</code></pre>
+      </div>
+
+      <div class="mt-4 bg-orange-900/20 border border-orange-800/40 rounded-xl p-4 flex gap-3">
+        <svg class="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p class="text-orange-200 text-sm">Unlike skills that activate automatically for specific tasks, agents are <span class="text-white font-medium">personas you select</span> that maintain consistent behavior across an <span class="text-white font-medium">entire session</span>. They can orchestrate multiple skills and have persistent priorities.</p>
+      </div>
+    </section>
+
+    <!-- ─── COMPLETE SETUP ────────────────────────────────────────────── -->
+    <section id="setup">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-white">Real-World Complete Setup</h2>
+          <p class="text-slate-400 text-sm">Banking Backend Monorepo</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+          <div class="flex items-center gap-2 px-5 py-3 bg-slate-800/60 border-b border-slate-700">
+            <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-500/70"></div><div class="w-3 h-3 rounded-full bg-yellow-500/70"></div><div class="w-3 h-3 rounded-full bg-green-500/70"></div></div>
+            <span class="text-slate-400 text-xs font-mono ml-2">Repository Structure</span>
+          </div>
+          <pre class="p-5 text-xs font-mono text-slate-300 overflow-x-auto leading-relaxed tree-line"><code>.github/
+├── <span class="text-brand-400">copilot-instructions.md</span>    <span class="text-slate-500"># ALWAYS LOADED</span>
+│
+├── instructions/               <span class="text-slate-500"># CONDITIONAL</span>
+│   ├── <span class="text-blue-300">java-service.instructions.md</span>
+│   ├── <span class="text-blue-300">kotlin-service.instructions.md</span>
+│   ├── <span class="text-blue-300">gradle.instructions.md</span>
+│   ├── <span class="text-blue-300">testing.instructions.md</span>
+│   └── <span class="text-blue-300">migrations.instructions.md</span>
+│
+├── prompts/                    <span class="text-slate-500"># MANUAL /command</span>
+│   ├── <span class="text-yellow-300">new-api-endpoint.prompt.md</span>
+│   ├── <span class="text-yellow-300">new-event-consumer.prompt.md</span>
+│   ├── <span class="text-yellow-300">generate-migration.prompt.md</span>
+│   └── <span class="text-yellow-300">code-review.prompt.md</span>
+│
+└── skills/                     <span class="text-slate-500"># AUTOMATIC semantic</span>
+  ├── gradle-build-debugging/
+    │   ├── <span class="text-purple-300">SKILL.md</span>
+    │   ├── scripts/
+    │   └── references/
+    ├── performance-optimization/
+    │   ├── <span class="text-purple-300">SKILL.md</span>
+    │   ├── scripts/
+    │   └── benchmarks/
+    └── security-audit/
+        ├── <span class="text-purple-300">SKILL.md</span>
+        ├── scripts/
+        └── references/</code></pre>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-white font-semibold text-sm">Usage Scenarios</h3>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <p class="text-white text-sm font-semibold mb-2 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-brand-500/20 text-brand-400 text-xs flex items-center justify-center font-bold">1</span>
+              Adding New Payment API Endpoint
+            </p>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-brand-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <code>copilot-instructions.md</code> (always)
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-brand-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <code>kotlin-service.instructions.md</code> or <code>java-service.instructions.md</code> (file is .kt or .java)
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-yellow-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Type <code>/new-api-endpoint</code> for scaffolding
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <p class="text-white text-sm font-semibold mb-2 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-purple-500/20 text-purple-400 text-xs flex items-center justify-center font-bold">2</span>
+              Debugging Failed CI
+            </p>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-brand-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <code>copilot-instructions.md</code> (always)
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-purple-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+                <code>gradle-build-debugging</code> skill (semantic match)
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-purple-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                Can execute scripts, reference docs
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <p class="text-white text-sm font-semibold mb-2 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-blue-500/20 text-blue-400 text-xs flex items-center justify-center font-bold">3</span>
+              Building Payment Orchestration Service
+            </p>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-brand-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <code>copilot-instructions.md</code> (always)
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-brand-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <code>kotlin-service.instructions.md</code> (file is .kt)
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-orange-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+                Select "Backend Expert" agent for session
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <p class="text-white text-sm font-semibold mb-2 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-yellow-500/20 text-yellow-400 text-xs flex items-center justify-center font-bold">4</span>
+              Writing Tests for Payment Service
+            </p>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-brand-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <code>copilot-instructions.md</code> (always)
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-brand-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <code>testing.instructions.md</code> (file is *Test.kt or *Test.java)
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-400">
+                <svg class="w-3.5 h-3.5 text-brand-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <code>kotlin-service.instructions.md</code> or <code>java-service.instructions.md</code> (production file under test)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── COMPARISON TABLE ──────────────────────────────────────────── -->
+    <section id="comparison" class="scroll-mt-20">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-slate-700 border border-slate-600 flex items-center justify-center">
+          <svg class="w-5 h-5 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-white">Complete Comparison</h2>
+          <p class="text-slate-400 text-sm">All five types side by side</p>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto rounded-2xl border border-slate-800">
+        <table class="w-full text-sm min-w-[700px]">
+          <thead>
+            <tr class="bg-slate-800/80 border-b border-slate-700">
+              <th class="text-left px-5 py-4 text-slate-400 font-semibold text-xs uppercase tracking-wide">Feature</th>
+              <th class="text-left px-4 py-4 text-brand-400 font-semibold text-xs uppercase tracking-wide">Repo Instructions</th>
+              <th class="text-left px-4 py-4 text-blue-400 font-semibold text-xs uppercase tracking-wide">Path-Specific</th>
+              <th class="text-left px-4 py-4 text-yellow-400 font-semibold text-xs uppercase tracking-wide">Prompt Files</th>
+              <th class="text-left px-4 py-4 text-purple-400 font-semibold text-xs uppercase tracking-wide">Skills</th>
+              <th class="text-left px-4 py-4 text-orange-400 font-semibold text-xs uppercase tracking-wide">Custom Agents</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800">
+            <tr class="bg-slate-900 hover:bg-slate-800/40 transition-colors">
+              <td class="px-5 py-3.5 text-slate-400 font-medium text-xs">File Pattern</td>
+              <td class="px-4 py-3.5"><code class="text-brand-300 text-xs">copilot-instructions.md</code></td>
+              <td class="px-4 py-3.5"><code class="text-blue-300 text-xs">*.instructions.md</code></td>
+              <td class="px-4 py-3.5"><code class="text-yellow-300 text-xs">*.prompt.md</code></td>
+              <td class="px-4 py-3.5"><code class="text-purple-300 text-xs">*/SKILL.md</code></td>
+              <td class="px-4 py-3.5 text-slate-400 text-xs">Agent config</td>
+            </tr>
+            <tr class="bg-slate-900/50 hover:bg-slate-800/40 transition-colors">
+              <td class="px-5 py-3.5 text-slate-400 font-medium text-xs">Activation</td>
+              <td class="px-4 py-3.5"><span class="badge-green rounded px-2 py-0.5 text-xs">Always Active</span></td>
+              <td class="px-4 py-3.5"><span class="badge-blue rounded px-2 py-0.5 text-xs">File Match</span></td>
+              <td class="px-4 py-3.5"><span class="badge-yellow rounded px-2 py-0.5 text-xs">Manual (/name)</span></td>
+              <td class="px-4 py-3.5"><span class="badge-purple rounded px-2 py-0.5 text-xs">Semantic Match</span></td>
+              <td class="px-4 py-3.5"><span class="badge-orange rounded px-2 py-0.5 text-xs">Explicit Select</span></td>
+            </tr>
+            <tr class="bg-slate-900 hover:bg-slate-800/40 transition-colors">
+              <td class="px-5 py-3.5 text-slate-400 font-medium text-xs">Scope</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">All files in repo</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Matching paths only</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Current task</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Relevant workflows</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Entire session</td>
+            </tr>
+            <tr class="bg-slate-900/50 hover:bg-slate-800/40 transition-colors">
+              <td class="px-5 py-3.5 text-slate-400 font-medium text-xs">Can Include</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Text only</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Text only</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Text + variables</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Text + scripts + files</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Config + skills</td>
+            </tr>
+            <tr class="bg-slate-900 hover:bg-slate-800/40 transition-colors">
+              <td class="px-5 py-3.5 text-slate-400 font-medium text-xs">Best For</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Universal standards</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Area-specific rules</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Repeated templates</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Complex workflows</td>
+              <td class="px-4 py-3.5 text-slate-300 text-xs">Persistent personas</td>
+            </tr>
+            <tr class="bg-slate-900/50 hover:bg-slate-800/40 transition-colors">
+              <td class="px-5 py-3.5 text-slate-400 font-medium text-xs">Team Sharing</td>
+              <td class="px-4 py-3.5"><span class="text-brand-400 text-xs font-medium">✅ Version control</span></td>
+              <td class="px-4 py-3.5"><span class="text-brand-400 text-xs font-medium">✅ Version control</span></td>
+              <td class="px-4 py-3.5"><span class="text-brand-400 text-xs font-medium">✅ Version control</span></td>
+              <td class="px-4 py-3.5"><span class="text-brand-400 text-xs font-medium">✅ Version control</span></td>
+              <td class="px-4 py-3.5"><span class="text-yellow-400 text-xs font-medium">⚠️ Export/import</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ─── DECISION MATRIX ───────────────────────────────────────────── -->
+    <section id="matrix">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-white">Final Decision Matrix</h2>
+          <p class="text-slate-400 text-sm">Ask yourself these questions</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+        <div class="divide-y divide-slate-800">
+          <div class="grid grid-cols-12 gap-4 px-6 py-3 bg-slate-800/60">
+            <div class="col-span-6 text-slate-400 text-xs font-semibold uppercase tracking-wide">Question</div>
+            <div class="col-span-3 text-brand-400 text-xs font-semibold uppercase tracking-wide">Yes → Use This</div>
+            <div class="col-span-3 text-slate-500 text-xs font-semibold uppercase tracking-wide">No → Consider This</div>
+          </div>
+          <div class="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-slate-800/30 transition-colors">
+            <div class="col-span-6 text-slate-300 text-sm">Does it apply to <span class="text-white font-medium">EVERY</span> file/interaction?</div>
+            <div class="col-span-3"><code class="text-brand-300 text-xs">copilot-instructions.md</code></div>
+            <div class="col-span-3 text-slate-500 text-xs">→ Next question</div>
+          </div>
+          <div class="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-slate-800/30 transition-colors">
+            <div class="col-span-6 text-slate-300 text-sm">Does it apply only to <span class="text-white font-medium">specific file types/paths</span>?</div>
+            <div class="col-span-3"><code class="text-blue-300 text-xs">*.instructions.md</code> + applyTo</div>
+            <div class="col-span-3 text-slate-500 text-xs">→ Next question</div>
+          </div>
+          <div class="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-slate-800/30 transition-colors">
+            <div class="col-span-6 text-slate-300 text-sm">Will I <span class="text-white font-medium">invoke it repeatedly</span> as a command?</div>
+            <div class="col-span-3"><code class="text-yellow-300 text-xs">*.prompt.md</code> as /command</div>
+            <div class="col-span-3 text-slate-500 text-xs">→ Next question</div>
+          </div>
+          <div class="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-slate-800/30 transition-colors">
+            <div class="col-span-6 text-slate-300 text-sm">Does it need <span class="text-white font-medium">scripts or bundled resources</span>?</div>
+            <div class="col-span-3"><code class="text-purple-300 text-xs">SKILL.md</code> + resources</div>
+            <div class="col-span-3 text-slate-500 text-xs">→ Next question</div>
+          </div>
+          <div class="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-slate-800/30 transition-colors">
+            <div class="col-span-6 text-slate-300 text-sm">Is it a <span class="text-white font-medium">multi-step complex workflow</span>?</div>
+            <div class="col-span-3"><code class="text-purple-300 text-xs">SKILL.md</code></div>
+            <div class="col-span-3 text-slate-500 text-xs">→ Next question</div>
+          </div>
+          <div class="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-slate-800/30 transition-colors">
+            <div class="col-span-6 text-slate-300 text-sm">Do I want a <span class="text-white font-medium">persistent persona</span> for the session?</div>
+            <div class="col-span-3"><span class="text-orange-300 text-xs font-medium">Custom Agent</span></div>
+            <div class="col-span-3 text-slate-500 text-xs">Use simpler option above</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── QUICK REFERENCE ───────────────────────────────────────────── -->
+    <section id="cheatsheet">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-xl bg-slate-700 border border-slate-600 flex items-center justify-center">
+          <svg class="w-5 h-5 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-white">Quick Reference Cheat Sheet</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="bg-slate-900 border border-brand-800/40 rounded-2xl p-5">
+          <div class="w-8 h-8 rounded-lg bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-3">
+            <svg class="w-4 h-4 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <p class="text-brand-400 font-bold text-sm mb-1">Always On</p>
+          <code class="text-brand-300 text-xs block mb-2">.github/copilot-instructions.md</code>
+          <p class="text-slate-500 text-xs">Universal standards, tech stack, response style</p>
+        </div>
+
+        <div class="bg-slate-900 border border-blue-800/40 rounded-2xl p-5">
+          <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-3">
+            <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <p class="text-blue-400 font-bold text-sm mb-1">File-Specific</p>
+          <code class="text-blue-300 text-xs block mb-2">.github/instructions/*.instructions.md</code>
+          <p class="text-slate-500 text-xs">Language rules, area conventions, test patterns</p>
+        </div>
+
+        <div class="bg-slate-900 border border-yellow-800/40 rounded-2xl p-5">
+          <div class="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center mb-3">
+            <svg class="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <p class="text-yellow-400 font-bold text-sm mb-1">On Command</p>
+          <code class="text-yellow-300 text-xs block mb-2">.github/prompts/*.prompt.md</code>
+          <p class="text-slate-500 text-xs">Scaffolding, reviews, doc generation</p>
+        </div>
+
+        <div class="bg-slate-900 border border-purple-800/40 rounded-2xl p-5">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-3">
+            <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <p class="text-purple-400 font-bold text-sm mb-1">Smart Workflows</p>
+          <code class="text-purple-300 text-xs block mb-2">.github/skills/*/SKILL.md</code>
+          <p class="text-slate-500 text-xs">CI/CD, security, complex processes</p>
+        </div>
+
+        <div class="bg-slate-900 border border-orange-800/40 rounded-2xl p-5">
+          <div class="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-3">
+            <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+          </div>
+          <p class="text-orange-400 font-bold text-sm mb-1">Personas</p>
+          <code class="text-orange-300 text-xs block mb-2">Custom Agents (UI)</code>
+          <p class="text-slate-500 text-xs">Backend Expert, Incident Debugger, roles</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── FOOTER ────────────────────────────────────────────────────────── -->
+  <footer class="border-t border-slate-800 mt-24 py-10 text-center">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-center justify-center gap-2 mb-2">
+        <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        <span class="text-white font-semibold text-sm">GitHub Copilot Customization Guide</span>
+      </div>
+      <p class="text-slate-500 text-xs">Instructions · Prompts · Skills · Agents</p>
+      <p class="text-slate-500 text-xs mt-2">Made by <a href="https://www.remsey.nl" target="_blank" rel="noopener noreferrer" class="underline hover:text-brand-400 transition-colors">Remsey Mailjard</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
