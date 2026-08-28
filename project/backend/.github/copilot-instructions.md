@@ -1,60 +1,52 @@
-# Rabobank Copilot Instructions — Vanilla HTML/CSS/JS
+# Rabobank Copilot Instructions — Java 17 / Spring Boot 3
 
 This file provides GitHub Copilot with the Rabobank coding standards used
-throughout the labs.  Place it in `.github/` so Copilot picks it up
+throughout the backend labs. Place it in `.github/` so Copilot picks it up
 automatically in VS Code (requires "Use Instruction Files" enabled).
 
 ---
 
 ## Language & Environment
 
-- **Runtime:** Browser (ES2022+), no transpiler, no bundler.
-- **Module system:** Native ES modules (`import`/`export`); use `type="module"` in `<script>`.
-- **Language:** Dutch in UI labels; English in code identifiers, comments, and documentation.
+- **Runtime:** Java 17, Spring Boot 3.
+- **Build tool:** Maven (`mvn spring-boot:run`, `mvn test`).
+- **Database:** H2 in-memory for development; keep queries PostgreSQL-compatible.
+- **Language:** Dutch in log messages and domain comments (e.g. "zaak", "klant"); English in class/method names and public API docs.
 
 ---
 
-## HTML
+## Package Structure
 
-- Use semantic elements: `<header>`, `<main>`, `<aside>`, `<section>`, `<footer>`, `<nav>`.
-- Every interactive element must have an accessible label (`aria-label` or associated `<label>`).
-- Never store user input in `data-*` attributes without escaping.
-- Use `hidden` attribute (not `display:none`) to temporarily hide elements.
+```
+nl.rabobank.casesummary
+├── controller/   ← REST endpoints (@RestController)
+├── service/      ← Business logic (@Service)
+├── repository/   ← Spring Data JPA repositories
+├── model/        ← JPA entities
+├── dto/          ← Data Transfer Objects (Java records)
+├── validation/   ← Custom validators (e.g. @ValidIban)
+└── config/       ← CORS, DataLoader, bean configuration
+```
 
-## CSS
+Keep this layering strict: controllers never talk to repositories directly — always go through a service.
 
-- Use CSS custom properties (`var(--name)`) for all colors, spacing, and typography.
-- All design tokens are in `css/variables.css` — do not hardcode hex values in component rules.
-- Use BEM-style class names: `.block__element--modifier`.
-- Prefer `rem`/`em` over `px` for font-sizes and spacing.
-- Transition: use `transition: all 0.2s ease` sparingly — prefer specific properties.
+---
 
-## JavaScript
+## REST API Conventions
 
-### Modules
-- Each file exports named functions/constants — no default exports.
-- Keep side effects out of module top-level; wrap in an init function called from `app.js`.
+- All endpoints versioned under `/api/v1/...`.
+- Return types are `ResponseEntity<T>`, never a bare DTO.
+- Validate request bodies with `@Valid` + `jakarta.validation` annotations on record fields.
+- Use `@RequestParam(defaultValue = ...)` for optional pagination params; sort explicitly with `Sort.by(...)`.
+- DTOs are Java `record`s — no mutable request/response classes.
 
-### DOM Manipulation
-- **Never** set `innerHTML` with user-supplied or API-fetched string data → XSS risk.
-- Use `element.textContent = value` for text nodes.
-- Use `document.createElement` + `appendChild`/`prepend` to build DOM trees.
-- Batch DOM writes with `DocumentFragment` when inserting multiple nodes.
+---
 
-### Event Handling
-- Remove event listeners when components are torn down (store references, call `removeEventListener`).
-- Debounce input handlers that trigger network requests (≥ 300 ms delay).
-- Prefer `element.addEventListener` over inline `onclick` attributes.
+## Data Access & Queries
 
-### Async / Networking
-- All API calls return `Promise`s — always use `async/await` with `try/catch`.
-- Show a loading indicator before awaiting and hide it in `finally`.
-- Show user-facing error messages via `showNotification(message, 'error')`, not `console.error` alone.
-
-### Naming Conventions
-- Functions: `camelCase` verbs — `renderCaseCard`, `getCases`, `handleSelectCase`.
-- Constants: `UPPER_SNAKE_CASE` — `SIMULATED_DELAY`, `PRIORITY_FACTORS`.
-- DOM id/class selectors: kebab-case — `#case-list`, `.case-card__subject`.
+- Use Spring Data JPA repository methods or `@Query` — never build SQL by string concatenation.
+- Any raw/native query must use parameter binding (`:param`), not string interpolation.
+- Business rules (status transitions, timestamps) belong in the **service** layer, not the repository or controller.
 
 ---
 
@@ -62,25 +54,31 @@ automatically in VS Code (requires "Use Instruction Files" enabled).
 
 | Rule | Reason |
 |------|--------|
-| Never `innerHTML` user data | XSS prevention |
-| Mask IBAN in logs and UI | PII protection |
-| Do not log full names or customer IDs | Privacy |
-| Validate all form inputs before use | Input sanitisation |
-| No raw IDs in URLs that correlate to PII | IDOR prevention |
+| Never concatenate user input into a query string | SQL injection prevention |
+| Mask IBAN before it leaves the service layer (`maskIban()` pattern in `CaseService`) | PII protection |
+| Log case/customer IDs, never full names or raw IBANs | Privacy |
+| Validate all `@RequestBody` input with `@Valid` | Input sanitisation |
+| Keep CORS origins explicit in `CorsConfig`, never `*` | API hardening |
 
 ---
 
-## Accessibility
+## Error Handling
 
-- All images need descriptive `alt` text (decorative images: `alt=""`).
-- Color is never the sole indicator of state — use text labels alongside status badges.
-- Keyboard navigation must work for all interactive elements (cards, buttons, selects).
-- Use `role="status"` or `aria-live="polite"` for dynamically injected content (notifications, search results).
+- Domain exceptions (e.g. `CaseNotFoundException`) are handled centrally in `GlobalExceptionHandler` — do not add local try/catch blocks in controllers for expected failure cases.
+- Throw `IllegalStateException` (or a dedicated domain exception) for invalid state transitions, e.g. reopening a closed case.
 
 ---
 
-## Financial Data Formatting
+## Testing
 
-- Dates: always use `Intl.DateTimeFormat('nl-NL', { … })` — see `formatDateNL()` in `utils/formatters.js`.
-- IBAN: display masked form (`maskIBAN()`) in all public-facing UI; raw IBAN only in internal/agent views.
-- Monetary amounts: use `Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' })`.
+- Unit tests use **JUnit 5 + Mockito**, under `src/test/java`, mirroring the main package structure.
+- Mock the repository layer when testing a service; don't hit the real H2 database in unit tests.
+- Every bug-fix or new business rule should ship with a test that would have failed before the fix.
+
+---
+
+## Conventions
+
+- Constructor injection only — no `@Autowired` on fields.
+- Logger via `LoggerFactory.getLogger(ThisClass.class)`, never `System.out.println`.
+- Do not add real customer data (names, IBANs, case content) to sample/seed data.

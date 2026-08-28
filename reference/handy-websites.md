@@ -2,6 +2,8 @@
 
 ## GitHub Copilot Agents & Skills
 
+- [Skills.sh](https://skills.sh/) — Browse and install community agent skills
+- [superpowers (obra)](https://github.com/obra/superpowers) — Skill pack referenced in the customization demo
 - [awesome-copilot (GitHub)](https://github.com/github/awesome-copilot) — Community-contributed instructions, agents, skills, and configurations voor GitHub Copilot (175+ agents, 208+ skills)
 - [Awesome GitHub Copilot — Skills](https://awesome-copilot.github.com/skills/) — Officiële website met overzicht van alle community skills
 - [awesome-copilot — Agents README](https://github.com/github/awesome-copilot/blob/main/docs/README.agents.md) — Overzicht van beschikbare agents
