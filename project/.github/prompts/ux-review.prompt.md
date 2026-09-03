@@ -3,7 +3,7 @@ name: UX Review Checklist
 description: Reviews the current UI for enterprise clarity and accessibility.
 ---
 
-Review the Case Follow-up Tracker UI.
+Review the Rabobank Case Summary UI.
 
 Checklist:
 - Are all form fields labeled and understandable?

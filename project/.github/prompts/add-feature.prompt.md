@@ -1,9 +1,9 @@
 ---
 name: Add Feature (Workshop-Friendly)
-description: Adds a small feature to the Case Follow-up Tracker without overengineering.
+description: Adds a small feature to the Rabobank Case Summary app without overengineering.
 ---
 
-You are extending the Case Follow-up Tracker (HTML/CSS/vanilla JS, no build step).
+You are extending the Rabobank Case Summary app (HTML/CSS/vanilla JS, no build step).
 
 Task:
 - Add the requested feature with the smallest possible UX that satisfies the requirement.
