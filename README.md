@@ -56,6 +56,17 @@ Start the frontend: right-click `project/frontend/index.html` → *Open with Liv
 ### 🎁 Both groups (optional)
 - [Create a prompt-refiner skill with `/create-skill`](exercises/optional-create-a-skill.md)
 
+### 🧪 All labs on one page → [`labs.html`](labs.html)
+
+Open it in your browser (download the repo first, then double-click the file). It has a
+**Backend / Frontend** switch and lists everything in three parts:
+
+| Part | What's in it |
+|---|---|
+| **In session** | The three exercises we do together today |
+| **Extra** | Already-written labs we don't reach today — for the backend group that's two more full modules (architecture, documentation, reviews, security, credentials, responsible use); for the frontend group it's form validation, performance, and self-review |
+| **On your own** | Take-home exercises that use **your own repository**, not the sample app — writing Copilot instructions for a real project, turning your most-repeated review comment into an agent, trying Plan mode on a real ticket |
+
 ---
 
 ## 📁 What's in this repo

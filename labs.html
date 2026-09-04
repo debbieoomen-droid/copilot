@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Labs — GitHub Copilot for Developers (Rabobank)</title>
+<style>
+  :root { --orange:#ff6600; --blue:#000066; --bg:#f7f7f9; --card:#fff; --text:#16162a; --muted:#5c5c6e;
+          --border:#e0e0e6; --green:#0a7d33; --purple:#5b2d8e; }
+  * { box-sizing:border-box; }
+  body { font-family:"Segoe UI",system-ui,sans-serif; margin:0; background:var(--bg); color:var(--text); line-height:1.5; }
+  header { background:var(--blue); color:#fff; padding:18px 24px; position:sticky; top:0; z-index:20;
+           display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  header h1 { margin:0; font-size:1.15rem; }
+  header p { margin:0; opacity:.82; font-size:.85rem; }
+  .switch { margin-left:auto; display:flex; gap:6px; }
+  .switch button { border:none; padding:8px 20px; border-radius:20px; font-weight:700; font-size:.85rem;
+                   cursor:pointer; background:rgba(255,255,255,.16); color:#fff; }
+  .switch button.on { background:var(--orange); }
+  main { max-width:900px; margin:0 auto; padding:22px 16px 80px; }
+  h2.sec { color:#fff; background:var(--blue); padding:11px 16px; border-radius:8px; font-size:1.05rem; margin:32px 0 6px; }
+  .lead { color:var(--muted); font-size:.92rem; margin:0 0 14px; padding:0 4px; }
+  .lab { background:var(--card); border:1px solid var(--border); border-left:6px solid var(--orange);
+         border-radius:10px; padding:15px 19px; margin:12px 0; }
+  .lab.extra { border-left-color:var(--purple); }
+  .lab.own { border-left-color:var(--green); }
+  .lab h3 { margin:0 0 6px; font-size:1rem; color:var(--blue); display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .tag { border-radius:11px; padding:1px 10px; font-size:.7rem; font-weight:700; letter-spacing:.02em; }
+  .t-session { background:var(--orange); color:#fff; }
+  .t-extra { background:var(--purple); color:#fff; }
+  .t-own { background:var(--green); color:#fff; }
+  .t-mod { background:#e6ebf7; color:var(--blue); }
+  .time { margin-left:auto; color:var(--muted); font-size:.78rem; font-weight:600; }
+  .lab p { margin:7px 0; font-size:.93rem; }
+  .lab ul, .lab ol { margin:7px 0; padding-left:22px; }
+  .lab li { margin:4px 0; font-size:.92rem; }
+  .path { background:#fff4ec; border:1px solid #ffd5b8; border-radius:5px; padding:2px 7px;
+          font-family:Consolas,monospace; font-size:.83rem; display:inline-block; word-break:break-all; }
+  .prompt { background:#12122a; color:#eaeaf2; border-radius:7px; padding:11px 14px; font-family:Consolas,monospace;
+            font-size:.85rem; margin:8px 0; white-space:pre-wrap; word-break:break-word; }
+  .why { background:#faf5ff; border-left:3px solid var(--purple); border-radius:0 6px 6px 0; padding:8px 12px;
+         margin:7px 0; font-size:.89rem; }
+  .why::before { content:"Why this matters: "; font-weight:700; }
+  .be-only, .fe-only { display:none; }
+  body.be .be-only { display:block; }
+  body.fe .fe-only { display:block; }
+  span.be-only, span.fe-only { display:none; }
+  body.be span.be-only { display:inline; }
+  body.fe span.fe-only { display:inline; }
+  a { color:var(--blue); }
+  footer { text-align:center; color:var(--muted); font-size:.82rem; padding:24px 16px; }
+</style>
+</head>
+<body class="be">
+<header>
+  <div>
+    <h1>🧪 Labs — GitHub Copilot for Developers</h1>
+    <p>Everything you can practise, during the session and afterwards</p>
+  </div>
+  <div class="switch">
+    <button id="bbe" class="on" onclick="setTrack('be')">BACKEND</button>
+    <button id="bfe" onclick="setTrack('fe')">FRONTEND</button>
+  </div>
+</header>
+<main>
+
+<p class="lead">Pick your track above. <span class="tag t-session">IN SESSION</span> = we do this together today ·
+<span class="tag t-extra">EXTRA</span> = already written, ready whenever you want it ·
+<span class="tag t-own">ON YOUR OWN</span> = takes what you learned back to your real work.</p>
+
+<!-- ================= IN SESSION ================= -->
+<h2 class="sec">Part 1 — What we do together today</h2>
+<p class="lead">Three exercises. Everything is copy-paste; you don't need to invent prompts.</p>
+
+<div class="lab">
+  <h3><span class="tag t-session">IN SESSION</span> 1 · Weak vs strong prompts <span class="time">15 min</span></h3>
+  <p><span class="path be-only">exercises/backend/01-weak-vs-strong-prompts.md</span><span class="path fe-only">exercises/frontend/01-weak-vs-strong-prompts.md</span></p>
+  <p>Ask Copilot for an IBAN validator with a lazy one-line prompt, look at what you get, then run the fully
+  specified version and compare. Nothing gets saved — this is about feeling the difference.</p>
+  <div class="why">Every other technique today is a variation on this one idea: the tool is as good as what you tell it.</div>
+</div>
+
+<div class="lab be-only">
+  <h3><span class="tag t-session">IN SESSION</span> 2 · Copilot on real backend work <span class="time">35 min</span></h3>
+  <p><span class="path">exercises/backend/02-backend-copilot-modules.md</span> — Module 1, exercises 1.1, 1.2 and 1.5</p>
+  <p>Start the backend first: <span class="path">cd project/backend</span> → <span class="path">mvn spring-boot:run</span></p>
+  <ul>
+    <li><b>1.1</b> — add a service method that finds one agent's cases from the last 7 days</li>
+    <li><b>1.2</b> — add a <code>PATCH /assign</code> endpoint so an agent can claim an open case (only when it's still OPEN)</li>
+    <li><b>1.5</b> — generate JUnit tests for the existing <code>updateStatus</code> business rules</li>
+  </ul>
+</div>
+
+<div class="lab fe-only">
+  <h3><span class="tag t-session">IN SESSION</span> 2 · Copilot on real frontend work <span class="time">35 min</span></h3>
+  <p><span class="path">exercises/frontend/02-prompting-in-the-app.md</span> — pick two scenarios</p>
+  <p>Start Live Server first: right-click <span class="path">project/frontend/index.html</span> → <i>Open with Live Server</i></p>
+  <ul>
+    <li><b>Scenario A</b> — implement the notification banner (it's an empty stub; the app already calls it everywhere)</li>
+    <li><b>Scenario B</b> — fix a real XSS hole in the admin search</li>
+    <li><b>Scenario C</b> — find and fix 3 planted bugs in the priority-score function</li>
+    <li><b>Scenario D</b> — document undocumented code for a new joiner</li>
+  </ul>
+</div>
+
+<div class="lab">
+  <h3><span class="tag t-session">IN SESSION</span> 3 · Build your own reviewer agent <span class="time">25 min</span></h3>
+  <p><span class="path be-only">exercises/backend/03-build-a-reviewer-agent.md</span><span class="path fe-only">exercises/frontend/03-build-a-reviewer-agent.md</span></p>
+  <p>Write one file that turns Copilot into a reviewer that works the way your team reviews — then test it on
+  deliberately bad code, once without the agent and once with it, and compare.</p>
+  <div class="why">This is the one to take home. A review standard written down once beats a review standard everyone remembers differently.</div>
+</div>
+
+<!-- ================= EXTRA ================= -->
+<h2 class="sec">Part 2 — Extra labs, already written</h2>
+
+<div class="be-only">
+<p class="lead">Your exercise file contains a full three-module curriculum. We only use Module 1 today —
+everything below is already written and waiting in
+<span class="path">exercises/backend/02-backend-copilot-modules.md</span>.</p>
+
+<div class="lab extra">
+  <h3><span class="tag t-extra">EXTRA</span> Module 1 — the two we skip <span class="time">~25 min</span></h3>
+  <ul>
+    <li><b>1.3</b> — refactor <code>maskIban()</code> under explicit performance constraints</li>
+    <li><b>1.4</b> — generate a repository query using JPA Specifications</li>
+  </ul>
+</div>
+
+<div class="lab extra">
+  <h3><span class="tag t-extra">EXTRA</span> Module 2 — Architecture, Understanding &amp; Reviews <span class="tag t-mod">≈1 hour</span></h3>
+  <ul>
+    <li><b>2.1</b> — have Copilot explain this application's architecture to a new joiner, then judge whether it's actually right</li>
+    <li><b>2.2</b> — write an Architecture Decision Record (ADR) for the choice of an H2 in-memory database</li>
+    <li><b>2.3</b> — architecture trade-off analysis</li>
+    <li><b>2.4</b> — review a proposed bulk-delete endpoint for correctness, security and standards</li>
+    <li><b>2.5</b> — generate onboarding documentation for the whole service</li>
+  </ul>
+  <div class="why">No code is written in most of these — you're using Copilot to explain and document, which is where a lot of real time goes.</div>
+</div>
+
+<div class="lab extra">
+  <h3><span class="tag t-extra">EXTRA</span> Module 3 — Responsible Use, Security &amp; Risk <span class="tag t-mod">≈1 hour</span></h3>
+  <ul>
+    <li><b>3.1</b> — spot the security vulnerabilities in a payment service</li>
+    <li><b>3.2</b> — hardcoded credentials and secrets: find them, then fix them properly</li>
+    <li><b>3.3</b> — validate Copilot's test output (do the tests actually prove anything?)</li>
+    <li><b>3.4</b> — prevent data exposure in API responses</li>
+    <li><b>3.5</b> — responsible prompting for sensitive business logic</li>
+    <li><b>3.6</b> — AI limitations awareness: find the edges deliberately</li>
+  </ul>
+</div>
+</div>
+
+<div class="fe-only">
+<p class="lead">Two labs exist in the project that we don't reach today. Both are described in
+<span class="path">project/frontend/README.md</span>.</p>
+
+<div class="lab extra">
+  <h3><span class="tag t-extra">EXTRA</span> Lab 3 — Form validation <span class="time">~20 min</span></h3>
+  <p>Create <span class="path">project/frontend/js/validate.js</span> with a <code>validateCaseForm(formData)</code>
+  function returning <code>{ valid, errors }</code>.</p>
+  <ul>
+    <li>Subject must be at least 10 characters</li>
+    <li>IBAN must match the Dutch format (<code>NL\d{2}[A-Z]{4}\d{10}</code>)</li>
+    <li>Customer name must not be empty</li>
+    <li>Description at most 500 characters</li>
+  </ul>
+  <div class="why">Validation rules are exactly the kind of thing Copilot gets 90% right and 10% dangerously wrong. Good practice at reviewing rather than accepting.</div>
+</div>
+
+<div class="lab extra">
+  <h3><span class="tag t-extra">EXTRA</span> Lab 6 — Performance <span class="time">~20 min</span></h3>
+  <p>In <span class="path">project/frontend/js/components/case-list.js</span>:</p>
+  <ol>
+    <li>Wrap the search handler in a <b>debounce</b> (300 ms)</li>
+    <li>Replace the append-one-by-one loop with a <b>DocumentFragment</b></li>
+    <li><i>Stretch:</i> render only the visible cards (a simple virtual list)</li>
+  </ol>
+  <p>Ask Copilot to explain <i>why</i> each change is faster — not just to make it.</p>
+</div>
+
+<div class="lab extra">
+  <h3><span class="tag t-extra">EXTRA</span> Self-review before you open a PR <span class="time">~15 min</span></h3>
+  <p>Take any file you changed today and, in Ask mode:</p>
+  <div class="prompt">Review this file the way a senior reviewer at a bank would. Focus on XSS, PII exposure, accessibility and anything a reviewer would ask me to change. List findings as: RISK | LOCATION | RECOMMENDATION.</div>
+  <p>Then fix what you agree with — and note what you disagree with, and why.</p>
+</div>
+</div>
+
+<!-- ================= ON YOUR OWN ================= -->
+<h2 class="sec">Part 3 — On your own, in your real work</h2>
+<p class="lead">These are the ones that actually change how you work. None of them use the sample app —
+they use <b>your</b> repository.</p>
+
+<div class="lab own">
+  <h3><span class="tag t-own">ON YOUR OWN</span> A · Write instructions for your own repo <span class="time">~30 min</span></h3>
+  <p>Create <span class="path">.github/copilot-instructions.md</span> in a repository you actually work in.
+  Look at <span class="path">project/<span class="be-only">backend</span><span class="fe-only">frontend</span>/.github/copilot-instructions.md</span> for the shape.</p>
+  <p>Start by asking Copilot to draft it from your own codebase:</p>
+  <div class="prompt">#codebase Read this project and draft a .github/copilot-instructions.md that captures how we actually write code here: language and framework versions, folder structure, naming conventions, error handling, testing approach, and any security rules that apply. Only state conventions you can see evidence of in the code. Where you are unsure, list it as an open question instead of guessing.</div>
+  <p>Then edit it by hand — the draft is a starting point, not the answer.</p>
+  <div class="why">Highest return of anything on this page. Every prompt anyone on your team writes from then on starts with your standards already loaded.</div>
+</div>
+
+<div class="lab own">
+  <h3><span class="tag t-own">ON YOUR OWN</span> B · Turn your most-repeated review comment into an agent <span class="time">~20 min</span></h3>
+  <p>Think of the comment you leave on pull requests over and over. Write it once as an agent in
+  <span class="path">.github/agents/</span>, using today's reviewer agent as the template.</p>
+  <ul>
+    <li>Give it the questions you always end up asking</li>
+    <li>Give it an output format your team will actually read</li>
+    <li>Run it on your last three merged PRs and see whether it would have caught anything</li>
+  </ul>
+</div>
+
+<div class="lab own">
+  <h3><span class="tag t-own">ON YOUR OWN</span> C · Try Plan mode on something real <span class="time">~20 min</span></h3>
+  <p>Pick a ticket you'd normally start by guessing at. Switch the chat mode to <b>Plan</b> — it researches
+  and writes an implementation plan <i>without touching any files</i> — then read the plan critically before
+  letting Agent mode do anything.</p>
+  <div class="why">Most people jump straight to Agent mode and then review a large diff. Reviewing a plan first is much easier than reviewing the code it produces.</div>
+</div>
+
+<div class="lab own be-only">
+  <h3><span class="tag t-own">ON YOUR OWN</span> D · Document a decision your team actually made <span class="time">~20 min</span></h3>
+  <p>Take a real architectural decision from the last year that never got written down, and use the ADR
+  approach from exercise 2.2 on it.</p>
+  <div class="prompt">Act as a senior architect. Write an Architecture Decision Record for this decision: [describe it]. Include Context, Decision, Consequences and Alternatives Considered. Ask me up to 5 questions first if anything is unclear — do not invent constraints I have not told you about.</div>
+  <div class="why">That last sentence matters. Without it you get a confident, plausible ADR containing reasons your team never had.</div>
+</div>
+
+<div class="lab own fe-only">
+  <h3><span class="tag t-own">ON YOUR OWN</span> D · Accessibility pass on a real component <span class="time">~20 min</span></h3>
+  <p>Take a component from your own product and ask:</p>
+  <div class="prompt">Review this component for accessibility against WCAG AA. Check keyboard navigation, focus order, ARIA labels, colour contrast, and whether any state is communicated by colour alone. For each finding tell me the impact on a real user, not just the rule number.</div>
+  <p>Then verify a couple of the findings yourself — some will be wrong, and noticing which is the skill.</p>
+</div>
+
+<div class="lab own">
+  <h3><span class="tag t-own">ON YOUR OWN</span> E · Deliberately catch it being wrong <span class="time">~15 min</span></h3>
+  <p>Ask Copilot something about your own systems that it cannot possibly know — an internal service's rate
+  limits, a team-specific convention, why a particular workaround exists. Watch whether it says "I don't know"
+  or invents something plausible.</p>
+  <div class="why">Do this once with your own team watching. It's the fastest way to make everyone appropriately sceptical without lecturing them.</div>
+</div>
+
+<footer>
+  GitHub Copilot for Developers · Rabobank · Trainer: Debbie Oomen (D-Data)<br>
+  Based on the original course by Remsey Mailjard
+</footer>
+
+<script>
+function setTrack(t){
+  document.body.className = t;
+  document.getElementById('bbe').className = t==='be' ? 'on' : '';
+  document.getElementById('bfe').className = t==='fe' ? 'on' : '';
+}
+</script>
+</main>
+</body>
+</html>
