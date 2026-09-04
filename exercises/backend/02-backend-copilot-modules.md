@@ -17,6 +17,42 @@ reach them today.
 
 ---
 
+## 🧭 Step 0 — Understand the codebase before you change it (8 min)
+
+**Do this first. You are about to modify a service you have never seen.**
+
+Normally that means half an hour of clicking through folders. Instead, ask.
+
+Open the project folder `project/backend/` in VS Code, open Copilot Chat in **Ask** mode, and send
+these one at a time:
+
+```
+#codebase Explain the architecture of this backend. Which layers exist, and how does a request flow from HTTP through to the database?
+```
+
+```
+#codebase Where do the business rules live? Which class decides whether a case can change status?
+```
+
+```
+#codebase Where is the customer IBAN masked, and why is it done in that layer rather than another?
+```
+
+### 👉 Now the part that matters
+
+After each answer, **open the References row** above it and check which files Copilot actually read.
+
+- Did it read the files you would have read?
+- Open one of them. Is the explanation actually true?
+- Did it state anything confidently that it could not have known from the code?
+
+💬 **Discuss:** you just got orientated in a strange codebase in a couple of minutes instead of half
+an hour. That is the single biggest time saving Copilot offers most developers — and it is only
+worth anything if you spot-check it. An architecture explanation you trust blindly is worse than
+no explanation, because now you are confidently wrong.
+
+---
+
 # Module 1 — Applying GenAI to Back-end Development & Code Quality (≈ 1 hour)
 
 ## 🎯 Learning Objectives

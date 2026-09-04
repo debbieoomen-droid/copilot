@@ -36,7 +36,7 @@ Take 2–3 minutes to review the result and answer:
 
 - Is the solution complete?
 - Does it handle invalid input (empty string, wrong format, lowercase)?
-- Does it actually implement the checksum, or just a regex?
+- Does it really check the number is valid, or only that it *looks* like an IBAN?
 - Would you use this in a real banking application?
 
 ---
