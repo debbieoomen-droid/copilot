@@ -249,6 +249,58 @@ Structured list, one block per bug.
 
 ---
 
+## 🧩 Scenario D — Documentation & Onboarding (Lab 3)
+
+### 🏦 Scenario
+A new front-end developer joins the team next week. The code works, but almost none of it is documented — which makes onboarding slow and reviews harder.
+
+### 📂 Context setup — open these tabs first
+- `frontend/js/utils/formatters.js`
+- `frontend/js/api.js`
+
+### Step D1 — Weak Prompt
+
+```
+add comments
+```
+
+Review the output: are the comments useful, or do they just restate what the code obviously does?
+
+### Step D2 — Strong Prompt
+
+```
+Act as a senior front-end developer at Rabobank writing documentation for a new joiner.
+
+Add JSDoc comments to the exported functions in formatters.js.
+
+For each function include:
+- A one-line summary of what it does and WHY it exists in a banking context
+- @param with type and meaning (not just the type)
+- @returns with an example value
+- A @example line showing realistic Dutch banking input (IBAN, EUR amount, or nl-NL date)
+
+Rules:
+- Do not change any logic — comments only
+- Flag any function whose behaviour is unclear or surprising rather than guessing
+- Keep each comment under 6 lines
+```
+
+### Step D3 — Compare
+
+| Criteria | Weak Prompt | Strong Prompt |
+|----------|------------|---------------|
+| Explains *why*, not just *what* | ❌ | ✅ |
+| Realistic banking examples | ❌ | ✅ |
+| Flags unclear behaviour instead of inventing it | ❌ | ✅ |
+| Useful to someone on day one | ❌ | ✅ |
+
+💬 **Discuss:**
+- Which comments would actually help a new joiner, and which are noise?
+- Copilot documents what the code *does* — but can it document what the code *should* do? Who owns that?
+- Where would you NOT want AI-generated documentation?
+
+---
+
 ## 🔒 Banking-Specific Prompt Habits
 
 Use this checklist when prompting for any Rabobank front-end code:

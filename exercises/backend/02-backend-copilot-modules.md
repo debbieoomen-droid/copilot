@@ -5,6 +5,18 @@
 
 ---
 
+## 📍 What we're doing in today's session
+
+**Today, in the room, we do these three:** Exercise **1.1**, **1.2** and **1.5**.
+If you finish early, try **2.1** or **2.2** — those need no coding, just read and judge Copilot's answer.
+
+**Everything else in this file is yours to keep.** Modules 2 and 3 are a complete follow-on
+curriculum — architecture, documentation, reviews, security, credentials, and responsible use —
+designed to be worked through with your own team afterwards. You are not behind if you don't
+reach them today.
+
+---
+
 # Module 1 — Applying GenAI to Back-end Development & Code Quality (≈ 1 hour)
 
 ## 🎯 Learning Objectives
