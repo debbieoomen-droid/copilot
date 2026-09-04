@@ -211,8 +211,8 @@ mvn spring-boot:run -Dspring-boot.run.arguments=--debug   # With debug logging
 
 Select the right model for the task:
 
-- **GPT-4.1**: Suitable for component generation, refactoring, documentation, and bug fixes
-- **GPT-4.1 (or the best model available to you)**: Excellent for complex code analysis, security reviews, and agent mode tasks
+- **A fast GPT-5 model** (e.g. GPT-5 mini): Suitable for component generation, refactoring, documentation, and bug fixes
+- **A stronger reasoning model** (or the best model available to you): Excellent for complex code analysis, security reviews, and agent mode tasks
 
 **Switch model:**
 1. Open GitHub Copilot Chat
@@ -333,7 +333,7 @@ The `renderCaseList()` in `case-list.js` causes unnecessary DOM reflows on every
 **Instructions:**
 1. Open `js/components/case-list.js` and read the `TODO Lab 6` comments
 2. Select the `renderCaseList` function
-3. Ask Copilot Chat (use **GPT-4.1 (or the best model available to you)** for best results):
+3. Ask Copilot Chat (use the best model available to you for best results):
    _"Optimize this renderCaseList function. Replace the append-one-by-one loop with DocumentFragment to batch all DOM insertions in a single operation. Explain why this is faster."_
 4. Review the optimization and accept or adjust
 5. Then ask: _"Also wrap the onFilterChange callback in bindSearchInput in a debounce function with a 300ms delay. Explain what debouncing is and why it matters for a search input."_
@@ -388,7 +388,7 @@ Custom chat modes create specialized AI assistants for specific tasks.
 1. Ask Copilot Chat to create a new `filterCases(cases, query)` utility function
 2. Click on your original prompt in the chat history and edit it:
    _"Also handle filtering by status and priority, and make the function case-insensitive for all string comparisons"_
-3. Switch models (e.g. from GPT-4.1 to GPT-4.1 (or the best model available to you)) and apply again
+3. Switch to a different model in the dropdown and apply again
 4. Compare the generated implementations from both models
 
 ---
@@ -400,7 +400,7 @@ Custom chat modes create specialized AI assistants for specific tasks.
 GitHub Copilot's agent mode can work autonomously across multiple files, recognize errors, and self-correct.
 
 **Instructions:**
-1. Open Copilot Chat → choose **Agent mode** → select **GPT-4.1 (or the best model available to you)**
+1. Open Copilot Chat → choose **Agent mode** → select the best model available to you
 2. Ensure the frontend is running via Live Server
 3. Provide this prompt:
 
@@ -430,7 +430,7 @@ Let's add a Statistics page to the Rabobank Case Summary tool.
 
 **Instructions:**
 1. Create a sketch (or screenshot) of a desired UI component, for example a "Case Status Badge" with color coding
-2. Open Copilot Chat with **GPT-4.1 (or the best model available to you)**
+2. Open Copilot Chat with the best model available to you
 3. Drag the image to the chat window
 4. Ask:
    ```

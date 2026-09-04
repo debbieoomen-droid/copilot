@@ -73,7 +73,7 @@ Start the frontend: right-click `project/frontend/index.html` → *Open with Liv
 ## 💡 Two practical notes
 
 - Where any material mentions `@workspace`: newer VS Code versions call this `#codebase` — same feature.
-- Choose the best model available in your Copilot model dropdown (e.g. **GPT-4.1**).
+- Choose the best model available in your Copilot model dropdown (e.g. a **GPT-5** model, or leave it on **Auto**).
 
 ---
 
