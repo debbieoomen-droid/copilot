@@ -533,9 +533,9 @@ Act as a security-focused Java developer at Rabobank.
 
 A developer has this in their application.properties:
 
-spring.datasource.url=jdbc:postgresql://prod-db.rabobank.nl:5432/cases
+spring.datasource.url=jdbc:postgresql://prod-db.example.internal:5432/cases
 spring.datasource.username=case_admin
-spring.datasource.password=R@b0bank2024!
+spring.datasource.password=EXAMPLE_NOT_A_REAL_PASSWORD
 spring.jpa.hibernate.ddl-auto=update
 
 Identify every security problem and provide the secure alternative.

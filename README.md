@@ -21,6 +21,15 @@ Trainer: **Debbie Oomen** (D-Data). Based on the original course by [Remsey Mail
 
 ---
 
+> ⚠️ **All data in this repository is fictional.** Customer names, IBANs, case descriptions and
+> amounts are invented sample data created for training purposes only. No real Rabobank customer
+> data, systems, credentials or internal infrastructure appear anywhere in this repository.
+> Some code contains **deliberately planted flaws** (an XSS vulnerability, SQL injection, and
+> three bugs in a scoring function) — these are intentional exercise material, clearly marked in
+> the code, and must never be copied into real systems.
+
+---
+
 ## 🗂 Which exercises are for me?
 
 ### ⚙️ Backend group → [`exercises/backend/`](exercises/backend/)
