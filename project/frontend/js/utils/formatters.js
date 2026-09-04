@@ -4,14 +4,13 @@
  *
  * Lab 5 — calculatePriorityScore()
  * ─────────────────────────────────
- * This function contains intentional edge-case bugs.
- * Your task: use GitHub Copilot to identify and fix the issues,
- * then write tests (or console assertions) to confirm correct behaviour.
+ * ⚠️  Training material. This function ships with three intentional defects.
  *
- * Known edge cases to find:
- *  1. Division by zero when daysOpen is 0
- *  2. Escalation bonus is applied even for resolved/closed cases
- *  3. 'critical' priority factor is missing (treated as 0)
+ * They are NOT listed here on purpose — finding them is the exercise. Use
+ * GitHub Copilot to identify and fix them, then write tests (or console
+ * assertions) that prove each fix.
+ *
+ * Never copy this function into a real system.
  */
 
 // ---------------------------------------------------------------------------
@@ -84,18 +83,24 @@ const PRIORITY_FACTORS = {
   low: 1,
   medium: 2,
   high: 3,
-  // TODO Lab 5: 'critical' factor is missing — add it here
 };
 
 /**
  * Calculate a numeric priority score for a case.
  *
- * Formula:
- *   score = (daysOpen / 1) * priorityFactor + escalationBonus
+ * Intended behaviour:
+ *   score = daysOpen * priorityFactor + escalationBonus
  *
- * escalationBonus = 10 when status is 'escalated', else 0
+ * Every supported priority level must map to a factor, so that a more urgent
+ * case always outranks a less urgent one opened on the same day.
  *
- * ⚠️  Lab 5 — This function contains bugs. Find and fix them!
+ * A case opened today still counts as one day open — priority must never be
+ * wiped out just because the case is new.
+ *
+ * An escalated case should get a +10 bonus. A case that is already resolved
+ * or closed should never receive one.
+ *
+ * ⚠️  Lab 5 — this implementation does not fully match that description.
  *
  * @param {{ priority: string, status: string, createdAt: string }} caseItem
  * @returns {number}
@@ -103,13 +108,9 @@ const PRIORITY_FACTORS = {
 export function calculatePriorityScore(caseItem) {
   const daysOpen = daysBetween(caseItem.createdAt, new Date().toISOString());
 
-  // BUG 1: When daysOpen is 0 (case opened today) the score is always 0
-  //        regardless of priority. Fix: ensure a minimum score of 1 day.
   const factor = PRIORITY_FACTORS[caseItem.priority] ?? 0;
 
-  // BUG 2: Escalation bonus is applied even for 'resolved' and 'closed' cases.
-  //        Fix: only apply the bonus for active (not resolved/closed) cases.
-  const escalationBonus = caseItem.status === 'escalated' ? 10 : 0;
+  const escalationBonus = caseItem.status !== 'open' ? 10 : 0;
 
   return daysOpen * factor + escalationBonus;
 }

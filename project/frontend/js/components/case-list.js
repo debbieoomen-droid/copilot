@@ -24,6 +24,7 @@
  */
 
 import { renderCaseCard } from './case-card.js';
+import { calculatePriorityScore } from '../utils/formatters.js';
 
 /**
  * Render the case list into the given container element.
@@ -48,8 +49,15 @@ export function renderCaseList(container, cases, selectedCaseId, onSelect) {
     return;
   }
 
+  // Highest-priority cases first. The score comes from calculatePriorityScore()
+  // in utils/formatters.js — so a bug in that function directly changes which
+  // case an agent sees at the top of this list. (See Lab 5.)
+  const ordered = [...cases].sort(
+    (a, b) => calculatePriorityScore(b) - calculatePriorityScore(a)
+  );
+
   // TODO Lab 6: Replace this loop with a DocumentFragment
-  for (const caseItem of cases) {
+  for (const caseItem of ordered) {
     const card = renderCaseCard(caseItem, caseItem.id === selectedCaseId);
     card.addEventListener('click', () => onSelect(caseItem));
     container.appendChild(card);   // ⚠️ triggers reflow on every iteration

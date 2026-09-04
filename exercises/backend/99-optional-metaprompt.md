@@ -1,11 +1,17 @@
-# Exercise 3: Metaprompt for IBAN Validation in Java
-# 
-# INSTRUCTIONS:
-# 1. Read the metaprompt below carefully
-# 2. Analyze what makes it effective for prompt engineering
-# 3. Implement the method based on the metaprompt
-# 4. Test with the provided examples
+# Optional — Metaprompt for IBAN Validation in Java
 
+> Not part of the session. Take-home material.
+
+## What to do
+
+1. Read the metaprompt below carefully
+2. Work out what makes it effective as a piece of prompt engineering
+3. Implement the method from the metaprompt alone — don't read ahead to the reference solution
+4. Test it against the provided examples
+
+## The metaprompt
+
+```java
 /*
 METAPROMPT:
 You are an expert in international banking standards. Write a Java method
@@ -78,3 +84,4 @@ public class IbanValidator {
         }
     }
 }
+```

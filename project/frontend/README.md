@@ -1,8 +1,10 @@
 # Rabobank Case Summary — HTML/CSS/JS Starter Project
 
-A **zero-dependency** starter project for the Rabobank GitHub Copilot labs.  
-No build step, no npm, no bundler — open `index.html` directly in a browser or
-via VS Code Live Server (port 5501).
+A **no-build** starter project for the Rabobank GitHub Copilot labs: the app itself runs straight from
+the filesystem with no bundler and no framework. (The only dependency is `vitest`, and only for the
+optional unit-test labs — run `npm install` if you want those.)  
+No build step and no bundler — open `index.html` directly in a browser or
+via VS Code Live Server (port 5500).
 
 ---
 
@@ -10,7 +12,7 @@ via VS Code Live Server (port 5501).
 
 1. Open this folder in VS Code.
 2. Start **Live Server** (`Go Live` button in the status bar).
-3. The app is served at `http://localhost:5501/training/rabobank/starter-project-html/`.
+3. The app is served at `http://localhost:5500`.
 
 > **Or** just double-click `index.html`. All paths are relative so it works from
 > the file system too (note: ES modules require a server; use Live Server).
@@ -20,8 +22,10 @@ via VS Code Live Server (port 5501).
 ## Project Structure
 
 ```
-starter-project-html/
+project/frontend/
 ├── index.html                   # App shell — header, sidebar, main, footer
+├── package.json                 # vitest only, for the optional unit-test labs
+├── tests/                       # Example vitest suite (state.test.js)
 ├── css/
 │   ├── reset.css                # Minimal CSS reset
 │   ├── variables.css            # CSS custom properties (design tokens)
@@ -122,12 +126,12 @@ Fix all `innerHTML` assignments that use user data.
 ### Lab 5 — Unit helpers: fix calculatePriorityScore
 
 **File:** `js/utils/formatters.js`  
-**Task:** The `calculatePriorityScore` function contains three intentional bugs.
+**Task:** The `calculatePriorityScore` function contains **three intentional defects**. They are
+deliberately not listed here — finding them is the exercise. Read the function's doc comment,
+compare it against what the code actually does, and use Copilot to find the gaps.
 
-Find and fix:
-1. Division by zero / zero score when case is opened today
-2. Escalation bonus applied even to resolved/closed cases
-3. Missing `'critical'` entry in `PRIORITY_FACTORS`
+The case list in the sidebar is sorted by this score, so you can see every one of them in the
+running app.
 
 Write manual test assertions:
 ```js

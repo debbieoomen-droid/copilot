@@ -1,4 +1,6 @@
-# Exercise 4: Create a Prompt Engineer Skill with `/create-skill`
+# Optional — Create a Prompt Engineer Skill with `/create-skill`
+
+> Not part of the session. Take-home material.
 
 ## Goal
 Practice using `/create-skill` in a new chat to build a prompt-engineering skill that turns any weak prompt into a better one.

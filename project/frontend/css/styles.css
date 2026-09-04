@@ -950,3 +950,174 @@ body {
   background: var(--color-border);
   border-radius: var(--radius-full);
 }
+
+/* ---------------------------------------------------------------------------
+   Detail panel, notes timeline and admin panel.
+   These rules match the class names the components actually render.
+   --------------------------------------------------------------------------- */
+
+.detail__header { margin-bottom: var(--space-5); }
+
+.detail__title {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin: 0 0 var(--space-2);
+  line-height: var(--line-height-tight);
+}
+
+.detail__meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.detail__section { margin-bottom: var(--space-6); }
+
+.detail__section > h3 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin: 0 0 var(--space-3);
+}
+
+.detail__description {
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text);
+}
+
+.detail__status-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5);
+}
+
+/* Key/value card -------------------------------------------------------- */
+
+.info-card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-5);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.info-card__row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: var(--space-3);
+  align-items: baseline;
+}
+
+.info-card__label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+}
+
+.info-card__value {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  word-break: break-word;
+}
+
+@media (max-width: 640px) {
+  .info-card__row { grid-template-columns: 1fr; gap: var(--space-1); }
+}
+
+/* Notes timeline -------------------------------------------------------- */
+
+.timeline { display: grid; gap: var(--space-3); margin-bottom: var(--space-5); }
+
+.timeline__item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+
+.timeline__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.timeline__empty {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+}
+
+/* Add-note form --------------------------------------------------------- */
+
+.note-form { display: grid; gap: var(--space-3); }
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.checkbox-row input[type="checkbox"] { margin: 0; flex-shrink: 0; }
+
+.note-form .btn { justify-self: start; }
+
+.badge--sm { font-size: var(--font-size-xs); padding: 1px 8px; }
+
+/* Selected case card ---------------------------------------------------- */
+
+.case-card--selected {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Active nav item ------------------------------------------------------- */
+
+.nav__item--active {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+/* Admin panel ----------------------------------------------------------- */
+
+.admin-preview {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin: var(--space-3) 0;
+  font-size: var(--font-size-sm);
+}
+
+.admin-results { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+
+.admin-results__item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+}
+
+.case-card__category { font-size: var(--font-size-xs); color: var(--color-text-muted); }
+
+.case-list__empty {
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

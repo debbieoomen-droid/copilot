@@ -1,4 +1,6 @@
-# 🧪 Exercise 3 — Build a Custom Frontend Reviewer Agent in VS Code
+# 🧪 Exercise 3 — Build a Custom Front-end Reviewer Agent
+
+> **Your track today:** Exercise 3 of 3 — the last one
 
 ## 🎯 Learning Objectives
 After this exercise you will:
@@ -42,7 +44,7 @@ A custom agent is a Markdown file that defines:
 In the project root, create:
 
 ```
-.github/agents/frontend-reviewer-ask.md
+.github/agents/frontend-reviewer-ask.agent.md
 ```
 
 ## ✍️ Step 2 — Frontmatter + System Prompt
@@ -114,7 +116,7 @@ deliberately XSS-vulnerable.
 
 ### Test A — Without the agent (baseline)
 
-Open `project/frontend/js/components/admin.js`, then ask Copilot Chat:
+Open `js/components/admin.js` in the editor, make sure the agents dropdown says **Ask**, then:
 
 ```
 Review this admin.js code
@@ -128,11 +130,22 @@ Review the output:
 
 ### Test B — With the agent
 
-Invoke your agent:
+Custom agents are **selected**, not `@`-mentioned. (`@` in VS Code chat is reserved for the
+built-in participants `@github`, `@terminal` and `@vscode` — typing `@frontend-reviewer-ask` just
+sends literal text.)
+
+1. Open the **agents dropdown** in the Chat view — the selector in the chat input that currently
+   says *Ask*, *Plan* or *Agent*
+2. Choose **frontend-reviewer-ask** from the list
+3. Then type:
 
 ```
-@frontend-reviewer-ask review admin.js
+review #admin.js
 ```
+
+> 🔎 **Not in the list?** Run `/agents` in chat to open the Configure Custom Agents menu and check
+> VS Code has picked up your file. Agent names are case-sensitive, and the file must sit in
+> `.github/agents/` inside the folder you opened as your workspace.
 
 Answer its questions. Example answers:
 

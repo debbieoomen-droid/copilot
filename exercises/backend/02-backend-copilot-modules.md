@@ -1,4 +1,6 @@
-# 🧪 Exercises — Back-end Development with GitHub Copilot
+# 🧪 Exercise 2 — Copilot on Real Back-end Work
+
+> **Your track today:** Exercise 2 of 3 · next up is `exercises/backend/03`
 
 > All exercises use the **Rabobank Case Summary** back-end (Java 17, Spring Boot 3, H2).  
 > Open the project folder `project/backend/` in VS Code before you start.
@@ -7,8 +9,11 @@
 
 ## 📍 What we're doing in today's session
 
-**Today, in the room, we do these three:** Exercise **1.1**, **1.2** and **1.5**.
-If you finish early, try **2.1** or **2.2** — those need no coding, just read and judge Copilot's answer.
+**Today, in the room:** Step 0 first (8 min, everyone), then **pick two** of Exercise **1.1**,
+**1.2** and **1.5**. Each one now ends with a ▶️ Verify step where you actually run what Copilot
+wrote — do not skip it, that is the point of the block.
+
+If you finish both, try **2.1** or **2.2** — those need no coding, just read and judge Copilot's answer.
 
 **Everything else in this file is yours to keep.** Modules 2 and 3 are a complete follow-on
 curriculum — architecture, documentation, reviews, security, credentials, and responsible use —
@@ -40,7 +45,9 @@ these one at a time:
 
 ### 👉 Now the part that matters
 
-After each answer, **open the References row** above it and check which files Copilot actually read.
+After each answer, **expand the collapsed summary line above it** — depending on your VS Code
+version it reads *"Used N references"*, *"Searched codebase"* or shows the tool calls it made —
+and check which files Copilot actually read.
 
 - Did it read the files you would have read?
 - Open one of them. Is the explanation actually true?
@@ -107,6 +114,25 @@ Context:
 This will be called from a REST endpoint. The codebase uses constructor injection, no Lombok.
 ```
 
+### ▶️ Verify — let Spring check Copilot's work
+
+You added a **derived query**: `findByAssignedAgentAndCreatedAtAfter`. Spring Data builds that
+query by parsing the method name against the `CustomerCase` entity — at **startup**.
+
+Restart the app:
+
+```bash
+mvn spring-boot:run
+```
+
+- **It boots** → every field name in that method actually exists. The query is real.
+- **It fails** with `PropertyReferenceException: No property 'xyz' found for type 'CustomerCase'`
+  → Copilot invented a field. Read the error, fix the method name, restart.
+
+💬 **This is worth pausing on.** You did not review that method name — a framework did, in one
+second, and it cannot be talked out of its answer. Wherever a tool can check the generated code
+for you, that beats reading it.
+
 ### 💬 Discussion
 - Which output matched the existing code patterns?
 - Did the weak prompt pick up on the 7-day filter requirement?
@@ -152,18 +178,61 @@ Requirements:
 Follow the exact patterns already used in updateStatus().
 ```
 
-### 👉 Verify
+### 👉 Read it first
 - Does the generated `AssignRequest` record sit inside `CaseController` like `StatusUpdateRequest`?
 - Is the `IllegalStateException` already handled by `GlobalExceptionHandler`?
 - Is `@Valid` present on the request body parameter?
+
+> ⚠️ Note: the existing `updateStatus()` does **not** use `@Valid`, and `StatusUpdateRequest` has
+> no validation annotations. So "follow the exact patterns in `updateStatus()`" and "use `@Valid`"
+> pull in opposite directions. Decide which one wins and be able to say why — that judgement call
+> is yours, not Copilot's.
+
+### ▶️ Verify — actually call the endpoint
+
+Restart the app (`mvn spring-boot:run`), then:
+
+**1. Find a case that is still OPEN.** Open http://localhost:8080/api/v1/cases in your browser and
+look for one with `"status": "OPEN"` — `Maria Jansen` and `Emma Willems` are seeded that way. Copy
+its `id` (a long UUID — *not* the `KL-2024-00x` number, that is the customer reference).
+
+**2. Assign it.** In the VS Code terminal, on **one line** (paste it as-is):
+
+```
+curl.exe -X PATCH "http://localhost:8080/api/v1/cases/PASTE-THE-UUID-HERE/assign" -H "Content-Type: application/json" -d "{\"agentName\":\"Jouw Naam\"}"
+```
+
+> 💡 Use `curl.exe`, not `curl`. In PowerShell — VS Code's default terminal on Windows — plain
+> `curl` is an alias for `Invoke-WebRequest`, which does not understand `-X` and will throw
+> *"A parameter cannot be found that matches parameter name 'X'"*. The `.exe` forces the real curl,
+> and works identically in PowerShell, cmd and Git Bash.
+>
+> No terminal? Use the **REST Client** extension, or just open the H2 console at
+> http://localhost:8080/h2-console and watch the row change.
+
+You should get **200** with `"status": "IN_PROGRESS"` and your name in `assignedAgent`.
+
+**3. Now break it on purpose.** Run the exact same command again. The case is no longer OPEN, so
+your business rule should fire and `GlobalExceptionHandler` should turn it into **409 Conflict**.
+
+- Got 409? The rule works *and* it is wired into the existing error handling.
+- Got 500, or a stack trace? Copilot threw something the handler does not know about.
+- Got 200 again? The business rule was never implemented — it just looked like it was.
+
+💬 **Discuss:** step 3 is the one that matters. The happy path passing tells you very little; the
+rule you asked for only exists if the failure case behaves.
 
 ---
 
 ## Exercise 1.3 — Refactor a Method with Performance Constraints
 
 ### 🏦 Scenario
-The `maskIban()` method in `CaseService` is called for **every case in a paginated list**.  
-On a page of 100 cases this creates 100 intermediate substring objects. Refactor it to use `StringBuilder` and add null/length guard checks.
+The `maskIban()` method in `CaseService` is called for **every case in a paginated list**.
+On a page of 100 cases this creates 100 intermediate substring objects.
+
+There is also a bug hiding in plain sight. Read the method and its Javadoc before you prompt:
+the comment promises `NL12 RABO **** **** 89`, but `iban.substring(0, 8)` returns `NL91RABO` —
+with no space. **The documentation and the code disagree, and only one of them is right.**
 
 ### 📂 Context setup — open these tabs
 - `service/CaseService.java`
@@ -177,13 +246,15 @@ Act as a senior Java performance engineer at Rabobank.
 Refactor the private maskIban() method in CaseService.java.
 
 Current implementation:
-- Uses substring concatenation
-- Minimal null/length checks
+- Uses substring concatenation on every call
+- Already guards null and length < 8 — keep that behaviour exactly as it is
+- Its Javadoc documents a format the code does not actually produce
 
 New requirements:
 - Use StringBuilder to avoid intermediate String objects
-- Guard: if iban is null or shorter than 8 characters, return "****"
-- Output format: "NL91 RABO **** **** 37"  (first 4 chars, space, chars 5–8, masked middle, last 2)
+- Output format: "NL91 RABO **** **** 37"
+  (chars 1-4, a space, chars 5-8, masked middle, last 2)
+- Update the Javadoc so it matches what the method really returns
 - Add a @VisibleForTesting comment so it can be unit-tested later
 - Keep the method private
 - Add a Javadoc explaining the format
@@ -198,7 +269,7 @@ Performance context: this method is called per-row in paginated results of up to
 
 ---
 
-## Exercise 1.4 — Generate a Repository Query with Specifications
+## Exercise 1.4 — Generate a Custom Repository Query (JPQL)
 
 ### 🏦 Scenario
 The compliance team needs a report: **count the number of fraud cases per status in a date range**.
@@ -279,6 +350,42 @@ Use:
 - Descriptive assertion messages
 - No Spring context (pure unit tests)
 ```
+
+### ▶️ Verify — run the tests
+
+Save the generated class as
+`src/test/java/nl/rabobank/casesummary/service/CaseServiceTest.java`, then:
+
+```bash
+mvn test
+```
+
+`mvn test` runs the **whole** suite, so the totals line will say around 17 tests — the project
+already ships `IbanValidatorTest` and `ValidIbanValidatorTest`. Look for the **`CaseServiceTest`**
+line specifically: `Tests run: 5, Failures: 0, Errors: 0`.
+
+Common outcomes, and what each one means:
+
+| What you see | What it tells you |
+|---|---|
+| All 5 green | The tests compile and pass — but see the question below |
+| Compilation error | Copilot referenced a method or constructor that does not exist |
+| `NullPointerException` in setup | The mock wiring is wrong — usually a missing `when(...)` stub |
+| A test fails | Either the test is wrong, or you have found a real bug. Read it before "fixing" it |
+
+### 👉 Now the question that matters
+
+Delete the closed-case guard from `CaseService.updateStatus()` — the line that throws
+`IllegalStateException` — and run `mvn test` again.
+
+- Does `updateStatus_closedCase_throwsIllegalStateException` go red?
+- If it stays green, the test never tested anything.
+
+> 🧹 Put the guard back afterwards.
+
+💬 **Discuss:** Copilot wrote both the code and the tests. A test suite that passes proves the
+tests agree with the code — not that either is correct. Deliberately breaking the thing a test
+claims to protect is the cheapest way to find out whether the test is real.
 
 ### 💬 Discussion
 - Did Copilot mock the `Optional.of()` / `Optional.empty()` return correctly?

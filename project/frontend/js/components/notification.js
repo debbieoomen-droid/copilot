@@ -9,7 +9,7 @@
  * ║                                                                    ║
  * ║  Your task (with GitHub Copilot):                                  ║
  * ║  1. Create a banner <div> with the correct CSS classes             ║
- * ║     (see variables.css – use .notification and .notification--     ║
+ * ║     (see css/styles.css – use .notification and .notification--     ║
  * ║      {success|error|warning|info})                                 ║
  * ║  2. Append it to #notification-area in index.html                  ║
  * ║  3. Auto-dismiss after 4 seconds                                   ║

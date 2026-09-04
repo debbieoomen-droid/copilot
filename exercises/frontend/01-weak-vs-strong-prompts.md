@@ -1,4 +1,6 @@
-# 🧪 Exercise 1: From Weak → Strong Prompts (TypeScript)
+# 🧪 Exercise 1 — From Weak to Strong Prompts (TypeScript)
+
+> **Your track today:** Exercise 1 of 3 · next up is `exercises/frontend/02`
 
 ## 🎯 Learning Objective
 After this exercise, you will:
@@ -140,7 +142,7 @@ model *thought* you wanted.
 Enhance your prompt even further. Try adding:
 - Country-specific IBAN length rules (NL = 18, DE = 22)
 - A typed result object with an error reason instead of just true/false
-- Unit test structure (vitest — already configured in the `project/frontend` folder)
+- Unit test structure (vitest — run `npm install` once in `project/frontend/` first)
 
 ---
 

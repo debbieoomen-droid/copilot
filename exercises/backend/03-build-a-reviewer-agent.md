@@ -1,4 +1,6 @@
-# 🧪 Exercise 2 — Build a Custom Backend Reviewer Agent in VS Code
+# 🧪 Exercise 3 — Build a Custom Back-end Reviewer Agent
+
+> **Your track today:** Exercise 3 of 3 — the last one
 
 ## 🎯 Learning Objectives
 After this exercise you will:
@@ -49,13 +51,13 @@ GitHub Copilot reads this file and behaves exactly as instructed — every sessi
 3. Inside `agents/`, create a new file:
 
 ```
-backend-reviewer-ask.md
+backend-reviewer-ask.agent.md
 ```
 
 Your file path should be:
 
 ```
-.github/agents/backend-reviewer-ask.md
+.github/agents/backend-reviewer-ask.agent.md
 ```
 
 ---
@@ -154,7 +156,7 @@ Save the file.
 
 ## 🔍 Step 4 — Verify the Complete File
 
-Your finished `backend-reviewer-ask.md` should look exactly like this:
+Your finished `backend-reviewer-ask.agent.md` should look exactly like this:
 
 ```markdown
 ---
@@ -226,9 +228,24 @@ What should be fixed first and why.
 
 ### Prepare a sample file to review
 
-Create a new file in your project called `PaymentService.java` and paste this code:
+Create a folder `review-samples/` at the top level of `project/backend/`, and inside it a file
+called `PaymentService.java`. Paste this code:
+
+> 📌 **Why `review-samples/` and not `src/`?** Maven only compiles `src/main/java`. Keeping this
+> file outside it means Copilot can still read and review it, but it will never be compiled or
+> run — so your project keeps building. This code is deliberately unsafe; it is here to be
+> reviewed, never executed.
 
 ```java
+package nl.rabobank.casesummary.reviewsample;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class PaymentService {
 
@@ -253,9 +270,16 @@ public class PaymentService {
 
 ---
 
+> ⚠️ **VS Code will show red squiggles on this file** — unresolved `org.springframework` imports,
+> and a package that doesn't match its folder. That is expected: the file sits outside the Maven
+> source root on purpose, so it is never compiled. Nothing is broken.
+
+---
+
 ### Test A — Without the agent (baseline)
 
-Open Copilot Chat and type:
+Open `PaymentService.java` in the editor so Copilot has it in context, set the agents dropdown to
+**Ask**, then type:
 
 ```
 Review this PaymentService code
@@ -271,11 +295,22 @@ Take 2 minutes to review the output:
 
 ### Test B — With the agent
 
-Open Copilot Chat and invoke your agent:
+Custom agents are **selected**, not `@`-mentioned. (`@` in VS Code chat is reserved for the
+built-in participants `@github`, `@terminal` and `@vscode` — typing `@backend-reviewer-ask` just
+sends literal text.)
+
+1. Open the **agents dropdown** in the Chat view — the selector in the chat input that currently
+   says *Ask*, *Plan* or *Agent*
+2. Choose **backend-reviewer-ask** from the list
+3. Then type:
 
 ```
-@backend-reviewer-ask review PaymentService.java
+review #PaymentService.java
 ```
+
+> 🔎 **Not in the list?** Run `/agents` in chat to open the Configure Custom Agents menu and check
+> VS Code has picked up your file. Agent names are case-sensitive, and the file must sit in
+> `.github/agents/` inside the folder you opened as your workspace.
 
 Observe what happens **before** the review starts:
 - Does the agent ask questions first?

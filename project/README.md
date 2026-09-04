@@ -202,7 +202,9 @@ mvn spring-boot:run -Dspring-boot.run.arguments=--debug   # With debug logging
 
 ### 0.1 Open the project in VS Code
 
-1. Open the `project` folder in VS Code
+1. Open your track's folder in VS Code — `project/frontend/` or `project/backend/`.
+   Copilot reads `.github/copilot-instructions.md` from the folder you open, and each track has
+   its own, so opening the repository root loses the Rabobank coding standards.
 2. Start **Live Server** for the frontend (`index.html` → _Open with Live Server_)
 3. Verify that the app loads at [http://localhost:5500](http://localhost:5500)
 4. Explore the app: click cases, view the detail panel, try the Admin panel
@@ -570,6 +572,6 @@ This project is your **sandbox**. Each lab exercise asks you to create or modify
 | BE L1 | `controller/CaseController.java` | New REST endpoint for case summary CRUD |
 | BE L2 | `.github/copilot-instructions.md` | Create team standards for Copilot |
 | BE L3 | Architecture documentation | Generate docs for the case service |
-| BE L4 | `service/CaseService.java` | Fix SQL injection in case search function |
+| BE L4 | `review-samples/PaymentService.java` (supplied in Exercise 3) | Review deliberately unsafe SQL string concatenation |
 | BE L5 | Tests for `CaseService` | Write unit tests with JUnit 5 + Mockito |
 | BE L6 | Monthly report generator | Improve the report logic |

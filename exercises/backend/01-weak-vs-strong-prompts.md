@@ -1,4 +1,6 @@
-# 🧪 Exercise: From Weak → Strong Prompts
+# 🧪 Exercise 1 — From Weak to Strong Prompts (Java)
+
+> **Your track today:** Exercise 1 of 3 · next up is `exercises/backend/02`
 
 ## 🎯 Learning Objective
 After this exercise, you will:
@@ -25,11 +27,11 @@ This functionality must be reliable and production-ready.
 
 ## 🔹 Step 1 — Weak Prompt
 
-Open GitHub Copilot Chat (or any AI coding assistant) and enter:
+Open GitHub Copilot Chat (**Ask** mode) and enter it exactly as written — do not improve it:
 
-
-Create a Java method to validate an IBAN
-
+```
+Create a function to validate IBAN
+```
 
 ### 👉 Observe the output
 Take 2–3 minutes to review the result and answer:
@@ -45,27 +47,38 @@ Take 2–3 minutes to review the result and answer:
 
 Now guide the AI more like a senior developer would.
 
-Use the prompt below:
+Use the prompt below — this is the same one on the slide:
 
-
+```
 Act as a senior backend developer.
 
-Create a Java method to validate IBAN numbers.
+Create a Java utility class named IbanValidator.
+Implement a public static method that validates IBAN numbers using the
+official MOD-97 algorithm.
 
 Requirements:
-
-Use the official IBAN checksum algorithm
-Handle invalid input (null, empty, wrong length)
-Return true/false
-Include clear comments
-Add 3 example test cases
+- Return false when the input is null or blank
+- Remove all spaces, convert to uppercase
+- Check it starts with 2 letters + 2 digits, length 15-34
+- Move the first 4 characters to the end
+- Convert letters to numbers: A=10 ... Z=35
+- Perform the MOD-97 check without BigInteger
+- Return true when the remainder is 1
+- Add clear comments explaining each step
+- Include a main method with 3 test cases:
+  one valid Dutch IBAN, one valid German IBAN, one invalid
 
 Context:
-This will be used in a banking application (Rabobank-like), so reliability is important.
+This will be used in a banking application (Rabobank-like), so reliability
+is important.
 
 Output:
+Clean, production-ready Java.
+```
 
-Clean, production-ready code
+> **Why the `main` method matters:** it is what lets you run the file in Step 4
+> without a project, without Maven and without a compile step. If you change the
+> prompt, keep that line.
 
 ---
 

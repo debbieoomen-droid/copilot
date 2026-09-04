@@ -1,4 +1,6 @@
-# 🧪 Exercise 1 — Effective Prompting for Rabobank Front-end Developers
+# 🧪 Exercise 2 — Prompting in the App
+
+> **Your track today:** Exercise 2 of 3 · next up is `exercises/frontend/03`
 
 ## 🎯 Learning Objectives
 After this exercise you will:
@@ -20,8 +22,10 @@ You are a front-end developer at Rabobank working on the **Customer Case Summary
 Vanilla JS/CSS application used by internal customer-service agents.
 
 Open the project now:
-1. Open `project/` in VS Code
-2. Start **Live Server** on `frontend/index.html`
+1. In VS Code choose **File → Open Folder** and open `project/frontend/`
+   *(not the repository root — Copilot only reads `.github/copilot-instructions.md` from the
+   folder you open, and the Rabobank frontend standards live in `project/frontend/.github/`)*
+2. Right-click `index.html` → **Open with Live Server**
 3. Verify the app loads at http://localhost:5500
 
 ---
@@ -57,7 +61,7 @@ For each scenario below, a "Context setup" section tells you which files to open
 
 Normally that means half an hour of clicking through folders. Instead, ask.
 
-Open `project/` in VS Code, open Copilot Chat in **Ask** mode, and send these one at a time:
+With `project/frontend/` open, open Copilot Chat in **Ask** mode and send these one at a time:
 
 ```
 #codebase Explain how this frontend is structured. Which file owns what, and how do the components fit together?
@@ -73,7 +77,9 @@ Open `project/` in VS Code, open Copilot Chat in **Ask** mode, and send these on
 
 ### 👉 Now the part that matters
 
-After each answer, **open the References row** above it and check which files Copilot actually read.
+After each answer, **expand the collapsed summary line above it** — depending on your VS Code
+version it reads *"Used N references"*, *"Searched codebase"* or shows the tool calls it made —
+and check which files Copilot actually read.
 
 - Did it read the files you would have read?
 - Open one of them. Is the explanation actually true?
@@ -88,15 +94,15 @@ no explanation, because now you are confidently wrong.
 
 ## 🧩 Scenario A — Implement a UI Component (Lab 1)
 
-**File:** `frontend/js/components/notification.js`
+**File:** `js/components/notification.js`
 
 The `showNotification()` function is an empty stub. The app already calls it everywhere, but nothing appears on screen.
 
 ### 📂 Context setup — open these tabs first
-- `frontend/js/components/notification.js`
-- `frontend/index.html`
-- `frontend/css/styles.css`
-- `frontend/css/variables.css`
+- `js/components/notification.js`
+- `index.html`
+- `css/styles.css`
+- `css/variables.css`
 
 ### Step A1 — Weak Prompt
 
@@ -128,7 +134,7 @@ Requirements:
   (types: success | error | warning | info — already in styles.css)
 - Auto-dismiss after 4 seconds for 'success' and 'info' types
 - Add a close (×) button that dismisses the banner immediately
-- Animate in with a CSS slide-down transition (use the .notification--visible class)
+- Do not write new CSS: .notification already animates itself in via the notif-in keyframes in css/styles.css
 - Handle multiple queued notifications without overlap
 
 Context:
@@ -150,20 +156,42 @@ A clean ES module export — no framework, no dependencies. Add JSDoc on the exp
 | Close button present | ❌ | ✅ |
 | Production-ready with JSDoc | ❌ | ✅ |
 
-💬 **Discuss:** Which part of the strong prompt made the biggest difference?
+### ▶️ Step A4 — Prove it actually works
+
+Reviewing the code is not the same as knowing it runs. Go and see:
+
+1. Save `notification.js` and reload the app in the browser
+2. Open any case and **change its status** in the dropdown
+3. A green success banner should appear top-right and disappear after ~4 seconds
+4. Trigger another one straight away — do two banners **stack**, or overlap?
+
+Then try the thing the prompt was really about:
+
+5. Open `js/data.js`, and in any case change `customerName` to:
+   `<img src=x onerror="alert('XSS')">`
+6. Reload, change that case's status, and read the banner
+
+If your implementation used `textContent`, the banner shows that text literally. If it used
+`innerHTML`, you get a popup — which in production would be someone else's script running inside
+a Rabobank tool.
+
+> 🧹 Undo the change to `data.js` before moving on.
+
+💬 **Discuss:** Copilot's weak-prompt version probably looked fine on screen. Which of these two
+told you the truth — reading it, or running it?
 
 ---
 
 ## 🧩 Scenario B — Security Refactoring (Lab 2 + Lab 4)
 
-**File:** `frontend/js/components/case-card.js`
+**File:** `js/components/case-card.js`
 
 `renderCaseCard` builds HTML using string concatenation and `innerHTML`. In a banking app this is an XSS risk because customer names and subjects are user-generated data.
 
 ### 📂 Context setup — open these tabs first
-- `frontend/js/components/case-card.js`
-- `frontend/js/utils/formatters.js`
-- `frontend/css/styles.css`
+- `js/components/case-card.js`
+- `js/utils/formatters.js`
+- `css/styles.css`
 
 ### Step B1 — Weak Prompt
 
@@ -216,18 +244,38 @@ explaining why it is XSS-safe (e.g. "// textContent never interprets HTML").
 | Adds accessible aria-label | ❌ | ✅ |
 | Explains the XSS risk in comments | ❌ | ✅ |
 
-💬 **Discuss:** What would happen if a malicious case subject contained `<script>` tags with the original code?
+### ▶️ Step B4 — Prove the hole is actually closed
+
+A refactor that *looks* safe and a refactor that *is* safe are different things. Attack your own code:
+
+1. **Before you apply Copilot's fix**, open `js/data.js` and change any case's `subject` to:
+
+   ```
+   <img src=x onerror="alert('XSS')">
+   ```
+
+2. Reload the app. The case list shows a popup — that is the vulnerability firing. Dismiss it.
+3. Now apply the refactored `renderCaseCard` from Step B2 and reload again.
+4. The card should display that payload **as literal text**. No popup.
+
+> 🧹 Undo the change to `data.js` before moving on.
+
+If you still get a popup, the refactor missed a sink — find which value is still going through
+`innerHTML`.
+
+💬 **Discuss:** you have just done the thing that separates a fix from a claimed fix. Copilot told
+you it was XSS-safe in Step B2. Only step 4 established that it was.
 
 ---
 
 ## 🧩 Scenario C — Bug Detection (Lab 5)
 
-**File:** `frontend/js/utils/formatters.js` — the `calculatePriorityScore` function
+**File:** `js/utils/formatters.js` — the `calculatePriorityScore` function
 
 This function contains **three intentional bugs**. Priority scores determine which customer cases are shown first. A bug here could hide a critical fraud report.
 
 ### 📂 Context setup — open these tabs first
-- `frontend/js/utils/formatters.js`
+- `js/utils/formatters.js`
 
 ### Step C1 — Weak Prompt
 
@@ -248,10 +296,12 @@ Act as a QA engineer auditing a Rabobank case management dashboard.
 Analyse the calculatePriorityScore function in formatters.js.
 
 Review specifically for:
-1. Division or arithmetic errors (especially with zero-value inputs like daysOpen = 0)
-2. Logic errors in conditional branches — check every priority factor mapping
-3. Cases where bonus conditions are applied incorrectly
-   (e.g. resolved/closed cases that should not receive an escalation bonus)
+1. Arithmetic edge cases — what does this return for a case opened today,
+   and is that the right answer for a critical case?
+2. Logic errors in conditional branches — check every priority level against
+   the factor lookup table
+3. Cases where the escalation bonus is applied incorrectly — compare the
+   condition in the code against the behaviour described in the doc comment
 
 For each bug you find, provide:
 - BUG: a one-sentence description
@@ -280,7 +330,39 @@ Structured list, one block per bug.
 | Gives domain context (fraud, priority) | ❌ | ✅ |
 | Structured, actionable output | ❌ | ✅ |
 
-💬 **Discuss:** How does describing the real-world risk ("fraud case ranked as low priority") change the quality of the suggestions?
+### ▶️ Step C4 — Watch the bug in the actual app
+
+`renderCaseList` sorts the sidebar by this score, so these bugs are visible on screen.
+
+**Before fixing anything**, reload the app and look at the bottom of the case list. The case
+marked **critical** is sitting *last* — below every low-priority case. That is bug 3: `critical`
+is missing from the factor table, so it scores 0.
+
+Now apply your fixes and reload:
+
+- The critical case should jump to the **top** of the list
+- **Resolved** and **closed** cases should stop collecting the +10 escalation bonus, so they drift
+  down the list
+
+The third fix — a case opened **today** scoring 0 regardless of priority — can't be seen in the
+sidebar, because none of the seeded cases were created today. Prove that one in the console
+instead:
+
+```js
+calculatePriorityScore({ priority: 'critical', status: 'open', createdAt: new Date().toISOString() })
+```
+
+Before your fix this returns `0`. After it, a brand-new critical case should outrank an old
+low-priority one.
+
+Add the `console.assert()` lines Copilot gave you to the bottom of `formatters.js`, reload, and
+check the browser console (<kbd>F12</kbd>) — silent means passing.
+
+> 🧹 Remove the assert lines again before moving on.
+
+💬 **Discuss:** How does describing the real-world risk ("fraud case ranked as low priority")
+change the quality of the suggestions? And note what just happened: a scoring bug nobody could
+see in the code was obvious the moment the app ran.
 
 ---
 
@@ -290,8 +372,8 @@ Structured list, one block per bug.
 A new front-end developer joins the team next week. The code works, but almost none of it is documented — which makes onboarding slow and reviews harder.
 
 ### 📂 Context setup — open these tabs first
-- `frontend/js/utils/formatters.js`
-- `frontend/js/api.js`
+- `js/utils/formatters.js`
+- `js/api.js`
 
 ### Step D1 — Weak Prompt
 
@@ -381,7 +463,7 @@ Try adding:
 - Country-specific IBAN validation rules  
 - Error messages instead of just true/false  
 - Logging for invalid cases  
-- Unit test structure (vitest — already configured in this project)  
+- Unit test structure (vitest — run `npm install` once in `project/frontend/` first)  
 
 ---
 
