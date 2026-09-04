@@ -100,6 +100,41 @@ AI works best when you:
 
 ---
 
+## ▶️ Step 4 — Actually run it
+
+Comparing two answers on screen is useful. Watching one of them pass its own tests is better.
+
+TypeScript can't run straight in a browser, so ask Copilot for a runnable version — no build
+tools, no setup:
+
+```
+Give me that same validateIban function as plain JavaScript with no type annotations,
+plus the three test cases as console.log lines, so I can paste it straight into the
+browser console.
+```
+
+Then:
+
+1. Open any page (the Case Summary app is fine) and press <kbd>F12</kbd> to open DevTools
+2. Click the **Console** tab
+3. Paste what Copilot gave you and press Enter
+
+You should see the valid Dutch and German IBANs return `true` and the invalid one return `false`.
+
+### 👉 Now the real question
+
+Copilot wrote both the code **and** the tests that check it. So:
+
+- If the tests pass, what exactly has that proven?
+- What would it take to actually trust this in a payment flow?
+- Try feeding it a valid IBAN it has never seen — does it still hold up?
+
+💬 **Discuss:** an AI that writes its own exam and then marks it is not the same as a verified
+implementation. This is the habit to take home: generated tests tell you the code does what the
+model *thought* you wanted.
+
+---
+
 ## ⚡ Bonus Challenge (optional)
 
 Enhance your prompt even further. Try adding:

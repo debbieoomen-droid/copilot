@@ -64,4 +64,5 @@ public final class IbanValidator {
         }
         return iban.replace(" ", "").trim().toUpperCase(Locale.ROOT);
     }
+    
 }

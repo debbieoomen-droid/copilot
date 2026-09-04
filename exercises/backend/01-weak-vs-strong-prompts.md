@@ -100,6 +100,44 @@ AI works best when you:
 
 ---
 
+## ▶️ Step 4 — Actually run it
+
+Comparing two answers on screen is useful. Watching one of them pass its own tests is better.
+
+The strong prompt asked for a `main` method with three test cases — so you can run the file
+directly, with no project, no Maven and no compile step:
+
+1. Create a new file called **`IbanValidator.java`** anywhere convenient (your Desktop is fine)
+2. Paste in the class Copilot generated from the **strong** prompt
+3. In a terminal, from that folder, run:
+
+```bash
+java IbanValidator.java
+```
+
+You should see each test case print with a pass/fail marker — the valid Dutch and German IBANs
+returning `true`, the invalid one returning `false`.
+
+> **Why this works without a project:** since Java 11 you can run a single source file directly.
+> Java compiles it in memory and runs `main` — handy for exactly this kind of throwaway check.
+
+> **If the ✓/✗ characters show up as `?`**, that's just your terminal's character encoding, not a
+> bug in the code. The `true`/`false` values are what matter.
+
+### 👉 Now the real question
+
+Copilot wrote both the code **and** the tests that check it. So:
+
+- If the tests pass, what exactly has that proven?
+- What would it take to actually trust this in a payment flow?
+- Try feeding it a valid IBAN it has never seen — does it still hold up?
+
+💬 **Discuss:** an AI that writes its own exam and then marks it is not the same as a verified
+implementation. This is the habit to take home: generated tests tell you the code does what the
+model *thought* you wanted.
+
+---
+
 ## ⚡ Bonus Challenge (optional)
 
 Enhance your prompt even further.
