@@ -128,6 +128,14 @@ Restart the app:
 mvn spring-boot:run
 ```
 
+> ℹ️ **The terminal will look like it's stuck — that's correct.** `spring-boot:run` starts a server
+> and keeps running; as long as that terminal is open, your backend is up. Nothing opens by itself:
+> go to **http://localhost:8080/api/v1/cases** in a browser to see it.
+>
+> - **Stop the server:** click in the terminal, press <kbd>Ctrl</kbd>+<kbd>C</kbd>
+> - **Need to run other commands?** Open a **second** terminal (the `+` in VS Code's terminal panel).
+>   Don't stop the server to get your prompt back — later steps need it running.
+
 - **It boots** → every field name in that method actually exists. The query is real.
 - **It fails** with `PropertyReferenceException: No property 'xyz' found for type 'CustomerCase'`
   → Copilot invented a field. Read the error, fix the method name, restart.
@@ -193,7 +201,10 @@ Follow the exact patterns already used in updateStatus().
 
 ### ▶️ Verify — actually call the endpoint
 
-Restart the app (`mvn spring-boot:run`), then:
+Restart the app (`mvn spring-boot:run`) and **leave it running**. Open a **second terminal** for
+the commands below — if you stop the server to get your prompt back, they will fail with a
+connection error.
+
 
 **1. Find a case that is still OPEN.** Open http://localhost:8080/api/v1/cases in your browser and
 look for one with `"status": "OPEN"` — `Maria Jansen` and `Emma Willems` are seeded that way. Copy

@@ -64,7 +64,11 @@ Trainer: **Debbie Oomen** (D-Data). Based on the original course by [Remsey Mail
 > root. Copilot only reads `.github/copilot-instructions.md` from the folder you open, and the
 > Rabobank backend coding standards live in `project/backend/.github/`.
 
-Start the backend: `cd project/backend` → `mvn spring-boot:run` → http://localhost:8080/api/v1/cases
+Start the backend: `cd project/backend` → `mvn spring-boot:run` → then open
+http://localhost:8080/api/v1/cases in a browser.
+
+> The terminal stays busy while the server runs — that's normal, not a hang. Nothing opens
+> automatically. <kbd>Ctrl</kbd>+<kbd>C</kbd> stops it; open a **second** terminal if you need one.
 
 ### 🖥️ Frontend group → [`exercises/frontend/`](exercises/frontend/)
 
