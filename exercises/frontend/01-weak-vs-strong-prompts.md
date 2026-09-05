@@ -25,6 +25,23 @@ This functionality must be reliable and production-ready.
 
 ---
 
+## ⚠️ Before you start — close the course project
+
+**Do this exercise with no project folder open**, or with an empty folder. In VS Code:
+**File → Close Folder**.
+
+Why: Copilot's Ask mode now searches your open codebase automatically, without you asking it to.
+The course project already contains a finished IBAN validator — so if it is open, Copilot finds it
+and answers *"this is already implemented, here it is"* instead of writing you a naive one. That is
+genuinely useful behaviour, but it removes the entire point of this exercise, which is to see what
+a lazy prompt produces from nothing.
+
+> 💡 **If it happens anyway** and Copilot points you at existing code: that in itself is worth
+> noticing — it just demonstrated that context changes the answer more than wording does. Close the
+> folder and run the prompt again to get the comparison this exercise is built on.
+
+---
+
 ## 🔹 Step 1 — Weak Prompt
 
 Open GitHub Copilot Chat (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>I</kbd>) and make sure the
