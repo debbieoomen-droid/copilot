@@ -80,6 +80,10 @@ Start the frontend: right-click `project/frontend/index.html` → *Open with Liv
 
 Jump straight to your track: [`labs.html#backend`](labs.html#backend) · [`labs.html#frontend`](labs.html#frontend)
 
+### 🛠️ Taking it back to your own work → [`reference/tips-and-tricks.md`](reference/tips-and-tricks.md)
+
+Every prompt template, trick and habit from the session, written out. You don't need the slides — it's all in there.
+
 Open it in your browser (download the repo first, then double-click the file). It has a
 **Backend / Frontend** switch and lists everything in three parts:
 
@@ -98,7 +102,7 @@ Open it in your browser (download the repo first, then double-click the file). I
 | `exercises/` | All exercises, split per group (see above) |
 | `project/` | The **Rabobank Case Summary** app — your sandbox: vanilla JS frontend + Java 17 / Spring Boot 3 backend, with deliberately planted flaws to fix. Full walkthrough in [`project/README.md`](project/README.md) |
 | `project/.github/` | Live examples of Copilot customization: instructions, agents, prompts, skills |
-| `reference/` | [Slash-command cheatsheet](reference/copilot-cheatsheet.md) · [useful websites](reference/handy-websites.md) · [customization guide](reference/copilot-customization-guide.html) |
+| `reference/` | **[Do it yourself — tips, tricks & prompt templates](reference/tips-and-tricks.md)** ← everything from the session in one file · [slash-command cheatsheet](reference/copilot-cheatsheet.md) · [useful websites](reference/handy-websites.md) · [customization guide](reference/copilot-customization-guide.html) |
 | `evaluation.html` | Evaluation form — filled in at the end of the session |
 
 ---
