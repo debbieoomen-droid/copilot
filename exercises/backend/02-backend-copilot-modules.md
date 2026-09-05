@@ -4,6 +4,9 @@
 
 > All exercises use the **Rabobank Case Summary** back-end (Java 17, Spring Boot 3, H2).  
 > Open the project folder `project/backend/` in VS Code before you start.
+>
+> 💡 **No Maven installed?** Use the bundled wrapper instead — `.\mvnw.cmd` on Windows,
+> `./mvnw` on macOS/Linux — everywhere this file says `mvn`. It downloads Maven on first run.
 
 ---
 
@@ -196,21 +199,34 @@ Restart the app (`mvn spring-boot:run`), then:
 look for one with `"status": "OPEN"` — `Maria Jansen` and `Emma Willems` are seeded that way. Copy
 its `id` (a long UUID — *not* the `KL-2024-00x` number, that is the customer reference).
 
-**2. Assign it.** In the VS Code terminal, on **one line** (paste it as-is):
+**2. Assign it.** Use the command for your terminal — replace the UUID with the one you copied.
 
-```
-curl.exe -X PATCH "http://localhost:8080/api/v1/cases/PASTE-THE-UUID-HERE/assign" -H "Content-Type: application/json" -d "{\"agentName\":\"Jouw Naam\"}"
+**PowerShell** (VS Code's default on Windows):
+
+```powershell
+Invoke-RestMethod -Method Patch `
+  -Uri "http://localhost:8080/api/v1/cases/PASTE-THE-UUID-HERE/assign" `
+  -ContentType "application/json" `
+  -Body '{"agentName":"Jouw Naam"}'
 ```
 
-> 💡 Use `curl.exe`, not `curl`. In PowerShell — VS Code's default terminal on Windows — plain
-> `curl` is an alias for `Invoke-WebRequest`, which does not understand `-X` and will throw
-> *"A parameter cannot be found that matches parameter name 'X'"*. The `.exe` forces the real curl,
-> and works identically in PowerShell, cmd and Git Bash.
+**Git Bash, macOS or Linux:**
+
+```bash
+curl -X PATCH "http://localhost:8080/api/v1/cases/PASTE-THE-UUID-HERE/assign" \
+  -H "Content-Type: application/json" \
+  -d '{"agentName":"Jouw Naam"}'
+```
+
+> 💡 **Why two versions?** Windows PowerShell mangles inline JSON when passing it to `curl.exe` —
+> every quoting style fails with a **400 Bad Request**, which looks exactly like a bug in your new
+> endpoint but isn't. `Invoke-RestMethod` is PowerShell-native and has no such problem. (Plain
+> `curl` in PowerShell is also an alias for `Invoke-WebRequest`, which doesn't understand `-X`.)
 >
-> No terminal? Use the **REST Client** extension, or just open the H2 console at
+> Prefer clicking? Use the **REST Client** extension, or open the H2 console at
 > http://localhost:8080/h2-console and watch the row change.
 
-You should get **200** with `"status": "IN_PROGRESS"` and your name in `assignedAgent`.
+You should get **200** back, with `"status": "IN_PROGRESS"` and your name in `assignedAgent`.
 
 **3. Now break it on purpose.** Run the exact same command again. The case is no longer OPEN, so
 your business rule should fire and `GlobalExceptionHandler` should turn it into **409 Conflict**.

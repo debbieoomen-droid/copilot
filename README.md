@@ -14,12 +14,17 @@ Trainer: **Debbie Oomen** (D-Data). Based on the original course by [Remsey Mail
    |---|---|---|
    | Copilot license | open VS Code → Copilot icon | icon active, chat opens (`Ctrl+Alt+I`) |
    | Backend group only: Java | `java -version` | version **17 or higher** |
-   | Backend group only: Maven | `mvn -version` | prints a version |
+   | Backend group only: Maven | `mvn -version` | prints a version — *optional, see below* |
    | Frontend group only: Live Server | VS Code extensions | "Live Server" installed |
    | Frontend group, optional: Node.js | `node -v` | v18+ — only needed for the optional `npm test` bonus |
 
    ⚠️ Your Copilot license is deactivated every 3 months — re-activate it **before** the session, not during.
 
+   > **Backend — you don't actually need Maven installed.** The project ships the Maven Wrapper, so
+   > you can use `mvnw` instead of `mvn` everywhere and it fetches Maven for you on first run:
+   > `.\mvnw.cmd spring-boot:run` on Windows, `./mvnw spring-boot:run` on macOS/Linux.
+   > **Java 17 you do need** — that one cannot be bundled.
+   >
    > **Frontend — running the optional unit tests.** The app itself needs nothing but Live Server.
    > If you want the `vitest` bonus challenges, run `npm install` once inside `project/frontend/`
    > first — dependencies are not included in the download.
