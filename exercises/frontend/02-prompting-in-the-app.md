@@ -2,6 +2,26 @@
 
 > **Your track today:** Exercise 2 of 3 · next up is `exercises/frontend/03`
 
+> All exercises use the **Rabobank Case Summary** front-end (vanilla JS, no framework, no build step).  
+> Open the project folder `project/frontend/` in VS Code before you start.
+
+---
+
+## 📍 What we're doing in today's session
+
+**Today, in the room:** Step 0 first (8 min, everyone — it is the 🧭 **Step 0** section further
+down), then **pick two** of Scenario **A**, **B** and **C**. Each one ends with a ▶️ step where you
+actually run what Copilot wrote — do not skip it, that is the point of the block.
+
+If you finish both, go on to **Scenario D** — it needs no coding, just read and judge what Copilot
+produced.
+
+**Everything else in this file is yours to keep.** The banking prompt habits, the bonus challenge
+and the remaining scenario are there to work through with your own team afterwards, together with
+the extra labs in `labs.html`. You are not behind if you don't reach them today.
+
+---
+
 ## 🎯 Learning Objectives
 After this exercise you will:
 - Know the difference between a weak prompt and a strong one
@@ -13,7 +33,8 @@ After this exercise you will:
 ---
 
 ## ⏱ Duration
-20–25 minutes
+**35 minutes in today's session** — Step 0 (8 min) plus two scenarios.  
+Each individual scenario takes 10–15 minutes on its own.
 
 ---
 
