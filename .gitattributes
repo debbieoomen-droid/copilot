@@ -1,0 +1,7 @@
+# The Maven wrapper scripts are shell/batch files whose line endings matter.
+# mvnw must stay LF or macOS/Linux fails with "bad interpreter: /bin/sh^M".
+mvnw        text eol=lf
+mvnw.cmd    text eol=crlf
+
+# Keep the wrapper jar/properties untouched.
+*.jar       binary
