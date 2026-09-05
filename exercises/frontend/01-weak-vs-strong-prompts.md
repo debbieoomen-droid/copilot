@@ -25,20 +25,26 @@ This functionality must be reliable and production-ready.
 
 ---
 
-## ⚠️ Before you start — close the course project
+## 📂 Before you start — work in a scratch folder
 
-**Do this exercise with no project folder open**, or with an empty folder. In VS Code:
-**File → Close Folder**.
+This exercise doesn't use the course project at all. You need a scratch folder anyway to keep your work tidy, so make it now:
 
-Why: Copilot's Ask mode now searches your open codebase automatically, without you asking it to.
-The course project already contains a finished IBAN validator — so if it is open, Copilot finds it
-and answers *"this is already implemented, here it is"* instead of writing you a naive one. That is
-genuinely useful behaviour, but it removes the entire point of this exercise, which is to see what
-a lazy prompt produces from nothing.
+1. Create an empty folder somewhere — e.g. `C:\copilot-scratch`
+2. In VS Code: **File → Open Folder** → select it
 
-> 💡 **If it happens anyway** and Copilot points you at existing code: that in itself is worth
-> noticing — it just demonstrated that context changes the answer more than wording does. Close the
-> folder and run the prompt again to get the comparison this exercise is built on.
+That's your workspace for this exercise. You'll open `project/frontend/` after the break, for
+Exercise 2.
+
+> **Why it matters, and it really does:** Copilot's Ask mode searches whatever project you have
+> open, on its own, without you typing `#codebase`. The course project already contains a finished
+> `IbanValidator` — so if it's open, Copilot finds it and replies *"this is already implemented,
+> here it is"* instead of writing you a naive one. That is genuinely useful behaviour in real work,
+> but it removes the whole point of this exercise, which is seeing what a lazy prompt produces
+> **from nothing**.
+
+> 💡 **If it happens anyway** and Copilot points you at existing code — notice what just happened.
+> It proved that *context* changes the answer more than wording does. Switch to your scratch folder
+> and run the prompt again to get the comparison this exercise is built on.
 
 ---
 

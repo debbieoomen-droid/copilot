@@ -25,20 +25,27 @@ This functionality must be reliable and production-ready.
 
 ---
 
-## ⚠️ Before you start — close the course project
+## 📂 Before you start — work in a scratch folder
 
-**Do this exercise with no project folder open**, or with an empty folder. In VS Code:
-**File → Close Folder**.
+This exercise doesn't use the course project at all. You need a scratch folder anyway to run your
+validator in Step 4, so make it now:
 
-Why: Copilot's Ask mode now searches your open codebase automatically, without you asking it to.
-The course project already contains a finished IBAN validator — so if it is open, Copilot finds it
-and answers *"this is already implemented, here it is"* instead of writing you a naive one. That is
-genuinely useful behaviour, but it removes the entire point of this exercise, which is to see what
-a lazy prompt produces from nothing.
+1. Create an empty folder somewhere — e.g. `C:\copilot-scratch`
+2. In VS Code: **File → Open Folder** → select it
 
-> 💡 **If it happens anyway** and Copilot points you at existing code: that in itself is worth
-> noticing — it just demonstrated that context changes the answer more than wording does. Close the
-> folder and run the prompt again to get the comparison this exercise is built on.
+That's your workspace for this exercise. You'll open `project/backend/` after the break, for
+Exercise 2.
+
+> **Why it matters, and it really does:** Copilot's Ask mode searches whatever project you have
+> open, on its own, without you typing `#codebase`. The course project already contains a finished
+> `IbanValidator` — so if it's open, Copilot finds it and replies *"this is already implemented,
+> here it is"* instead of writing you a naive one. That is genuinely useful behaviour in real work,
+> but it removes the whole point of this exercise, which is seeing what a lazy prompt produces
+> **from nothing**.
+
+> 💡 **If it happens anyway** and Copilot points you at existing code — notice what just happened.
+> It proved that *context* changes the answer more than wording does. Switch to your scratch folder
+> and run the prompt again to get the comparison this exercise is built on.
 
 ---
 
@@ -142,8 +149,7 @@ Comparing two answers on screen is useful. Watching one of them pass its own tes
 The strong prompt asked for a `main` method with three test cases — so you can run the file
 directly, with no project, no Maven and no compile step:
 
-1. Create a new file called **`IbanValidator.java`** somewhere **outside the course project** —
-   your Desktop, or any scratch folder
+1. In the **scratch folder you opened at the start**, create a file called **`IbanValidator.java`**
 2. Paste in the class Copilot generated from the **strong** prompt
 3. In a terminal, from that folder, run:
 
@@ -161,11 +167,9 @@ returning `true`, the invalid one returning `false`.
 > bug in the code. The `true`/`false` values are what matter.
 
 
-> ℹ️ **Why a scratch folder and not the project?** The course project already has its own
-> `IbanValidator` at `src/main/java/nl/rabobank/casesummary/validation/IbanValidator.java`, and
-> Exercise 2 depends on it. Saving your generated class into that folder risks overwriting it.
-> Nothing dramatic — just keep them apart. This exercise is deliberately standalone: you are
-> testing a prompt, not adding a feature.
+> ℹ️ **Keep it in the scratch folder.** The course project has its own `IbanValidator` at
+> `src/main/java/nl/rabobank/casesummary/validation/IbanValidator.java` and Exercise 2 depends on
+> it — saving yours in there risks overwriting it. Nothing dramatic, just keep them apart.
 
 ### 🔍 Optional: compare yours with the real one
 
