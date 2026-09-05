@@ -123,6 +123,10 @@ Then:
 
 You should see the valid Dutch and German IBANs return `true` and the invalid one return `false`.
 
+> 💡 **Nothing gets saved and nothing is added to the app.** The console is a scratchpad — reload
+> the page and it's gone. This exercise is deliberately standalone: you are testing a prompt, not
+> adding a feature. The app itself comes next, in Exercise 2.
+
 ### 👉 Now the real question
 
 Copilot wrote both the code **and** the tests that check it. So:

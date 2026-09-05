@@ -120,7 +120,8 @@ Comparing two answers on screen is useful. Watching one of them pass its own tes
 The strong prompt asked for a `main` method with three test cases — so you can run the file
 directly, with no project, no Maven and no compile step:
 
-1. Create a new file called **`IbanValidator.java`** anywhere convenient (your Desktop is fine)
+1. Create a new file called **`IbanValidator.java`** somewhere **outside the course project** —
+   your Desktop, or any scratch folder
 2. Paste in the class Copilot generated from the **strong** prompt
 3. In a terminal, from that folder, run:
 
@@ -133,6 +134,11 @@ returning `true`, the invalid one returning `false`.
 
 > **Why this works without a project:** since Java 11 you can run a single source file directly.
 > Java compiles it in memory and runs `main` — handy for exactly this kind of throwaway check.
+
+> ⚠️ **Do not save it inside `project/backend/`.** That project already has its own
+> `nl.rabobank.casesummary.validation.IbanValidator`, and dropping a second class with the same
+> name into `src/` gives you a duplicate-class build error in Exercise 2. This exercise is
+> deliberately standalone — you are testing a prompt, not adding a feature.
 
 > **If the ✓/✗ characters show up as `?`**, that's just your terminal's character encoding, not a
 > bug in the code. The `true`/`false` values are what matter.
