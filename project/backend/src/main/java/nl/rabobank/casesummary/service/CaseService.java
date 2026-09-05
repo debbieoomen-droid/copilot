@@ -98,6 +98,7 @@ public class CaseService {
             maskIban(c.getIban()),
             c.getCategory(),
             c.getStatus(),
+            c.getPriority(),
             c.getSubject(),
             c.getDescription(),
             c.getAssignedAgent(),

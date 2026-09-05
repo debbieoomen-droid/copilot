@@ -110,6 +110,7 @@ function normalizeCase(dto) {
     // Enums are UPPER_CASE on the backend; frontend uses kebab-case
     status: slugify(dto.status),
     category: slugify(dto.category),
+    priority: slugify(dto.priority),
     // LocalDateTime has no timezone indicator — treat as UTC
     createdAt: toIsoString(dto.createdAt),
     updatedAt: toIsoString(dto.updatedAt),

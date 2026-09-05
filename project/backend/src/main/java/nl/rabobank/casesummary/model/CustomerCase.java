@@ -32,6 +32,10 @@ public class CustomerCase {
     @Column(nullable = false)
     private CaseStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CasePriority priority;
+
     @Column(nullable = false)
     private String subject;
 
@@ -53,6 +57,7 @@ public class CustomerCase {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.status = CaseStatus.OPEN;
+        this.priority = CasePriority.MEDIUM;
     }
 
     public CustomerCase(String customerId, String customerName, CaseCategory category, String subject) {
@@ -82,6 +87,9 @@ public class CustomerCase {
 
     public CaseStatus getStatus() { return status; }
     public void setStatus(CaseStatus status) { this.status = status; }
+
+    public CasePriority getPriority() { return priority; }
+    public void setPriority(CasePriority priority) { this.priority = priority; }
 
     public String getSubject() { return subject; }
     public void setSubject(String subject) { this.subject = subject; }

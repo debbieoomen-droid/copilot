@@ -1,6 +1,7 @@
 package nl.rabobank.casesummary.dto;
 
 import nl.rabobank.casesummary.model.CaseCategory;
+import nl.rabobank.casesummary.model.CasePriority;
 import nl.rabobank.casesummary.model.CaseStatus;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public record CaseSummaryDTO(
     String maskedIban,
     CaseCategory category,
     CaseStatus status,
+    CasePriority priority,
     String subject,
     String description,
     String assignedAgent,

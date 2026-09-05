@@ -52,6 +52,50 @@
 </head>
 <body class="bg-[#0f172a] text-slate-200 font-sans antialiased">
 
+  <!-- ─── COURSE NOTE (added for the Rabobank sessions) ────────────────── -->
+  <div id="course-note">
+    <h2>📌 Read this first — how this guide relates to the course</h2>
+    <p>This is a <strong>general</strong> guide to customizing GitHub Copilot. It was written against a
+    different sample stack, so the examples below show <strong>Java 21, Kotlin, Gradle, Kafka and PostgreSQL</strong>.
+    That is fine — the <em>concepts</em> are what matter — but do not copy those settings into the course project.</p>
+    <p>In this course the projects are:</p>
+    <ul>
+      <li><strong>Backend</strong> — Java 17, Spring Boot 3.2, <strong>Maven</strong> (<code>mvn</code> / <code>mvnw</code>), H2 in-memory database</li>
+      <li><strong>Frontend</strong> — plain JavaScript and CSS, no framework and no build step</li>
+    </ul>
+    <p><strong>Where the files actually go.</strong> This guide explains what each customization type
+    <em>is</em>, but not always where it lives. For the exercises, use these paths, inside the folder you
+    opened in VS Code (<code>project/backend/</code> or <code>project/frontend/</code>):</p>
+    <ul>
+      <li><code>.github/copilot-instructions.md</code> — repository-wide instructions</li>
+      <li><code>.github/instructions/*.instructions.md</code> — path-specific instructions</li>
+      <li><code>.github/prompts/*.prompt.md</code> — prompt files, run with <code>/name</code></li>
+      <li><code>.github/agents/*.agent.md</code> — custom agents, <strong>chosen from the agents dropdown</strong> in chat (not with <code>@</code>)</li>
+      <li><code>.github/skills/&lt;name&gt;/SKILL.md</code> — skills, which Copilot pulls in by itself</li>
+    </ul>
+    <p><strong>Not covered here, deliberately:</strong> <em>hooks</em> are not permitted at Rabobank, and
+    <em>MCP servers</em> are blocked on the network and are a separate training.</p>
+    <p class="note-small">If this page looks unstyled, its stylesheet is loaded from an external CDN that may be
+    blocked on your network. The content is all still here and readable.</p>
+  </div>
+
+  <style>
+    /* Course note — deliberately plain CSS so it renders even if the CDN stylesheet is blocked. */
+    #course-note { max-width: 900px; margin: 20px auto; padding: 18px 22px; border-radius: 10px;
+                   background: #13233b; border: 1px solid #2b4166; border-left: 6px solid #ff6600;
+                   color: #dbe4f0; font-family: "Segoe UI", system-ui, sans-serif; line-height: 1.55; }
+    #course-note h2 { margin: 0 0 10px; font-size: 1.05rem; color: #ffb46b; }
+    #course-note p  { margin: 8px 0; font-size: .93rem; }
+    #course-note ul { margin: 8px 0; padding-left: 22px; }
+    #course-note li { margin: 4px 0; font-size: .92rem; }
+    #course-note code { background: #0b1626; border: 1px solid #24354d; border-radius: 4px;
+                        padding: 1px 5px; font-family: Consolas, monospace; font-size: .87em; color: #9ecbff; }
+    #course-note strong { color: #fff; }
+    #course-note .note-small { font-size: .85rem; color: #9fb0c6; font-style: italic; margin-top: 12px; }
+    /* Readable fallback if the CDN is unavailable and Tailwind's utilities never load. */
+    body { background: #0f172a; color: #d7dee9; }
+  </style>
+
   <!-- ─── NAV ─────────────────────────────────────────────────────────── -->
   <nav class="sticky top-0 z-50 bg-[#0f172a]/90 backdrop-blur border-b border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">

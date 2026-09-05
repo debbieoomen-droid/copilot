@@ -32,6 +32,7 @@ public class DataLoader {
             case1.setDescription("Klant meldt dat zijn energierekening twee keer is afgeschreven op 15 januari. Bedrag: €187,50 per afschrijving.");
             case1.setStatus(CaseStatus.IN_PROGRESS);
             case1.setAssignedAgent("Fatima El-Amrani");
+            case1.setPriority(CasePriority.HIGH);
             case1.setCreatedAt(LocalDateTime.now().minusDays(3));
 
             // Zaak 2: Vraag over hypotheek
@@ -41,6 +42,7 @@ public class DataLoader {
             case2.setIban("NL20RABO0123456789");
             case2.setDescription("Klant wil informatie over renteherziening. Huidige rente 2,8% loopt af per 1 maart 2025.");
             case2.setStatus(CaseStatus.OPEN);
+            case2.setPriority(CasePriority.MEDIUM);
             case2.setCreatedAt(LocalDateTime.now().minusDays(1));
 
             // Zaak 3: Fraude melding
@@ -51,6 +53,7 @@ public class DataLoader {
             case3.setDescription("Klant ziet een onbekende overboeking van €2.450 naar een Roemeense rekening. Pas is niet gestolen.");
             case3.setStatus(CaseStatus.ESCALATED);
             case3.setAssignedAgent("Thomas Bakker");
+            case3.setPriority(CasePriority.CRITICAL);
             case3.setCreatedAt(LocalDateTime.now().minusHours(6));
 
             // Zaak 4: Betaalprobleem
@@ -61,6 +64,7 @@ public class DataLoader {
             case4.setDescription("Klant kan geen iDEAL betalingen doen via de Rabo App. Foutmelding: 'Sessie verlopen'.");
             case4.setStatus(CaseStatus.WAITING_CUSTOMER);
             case4.setAssignedAgent("Fatima El-Amrani");
+            case4.setPriority(CasePriority.HIGH);
             case4.setCreatedAt(LocalDateTime.now().minusDays(2));
 
             // Zaak 5: Opgelost - rekeningprobleem
@@ -71,6 +75,7 @@ public class DataLoader {
             case5.setDescription("Klant kan niet inloggen na update van de Rabo App. Android 14, Samsung Galaxy S24.");
             case5.setStatus(CaseStatus.RESOLVED);
             case5.setAssignedAgent("Lisa van der Berg");
+            case5.setPriority(CasePriority.LOW);
             case5.setCreatedAt(LocalDateTime.now().minusDays(5));
             case5.setResolvedAt(LocalDateTime.now().minusDays(4));
 
@@ -81,6 +86,7 @@ public class DataLoader {
             case6.setIban("NL33RABO0998877665");
             case6.setDescription("Klant wil een persoonlijke lening aanvragen van €15.000 voor een verbouwing. Inkomen: €4.200 bruto/maand.");
             case6.setStatus(CaseStatus.OPEN);
+            case6.setPriority(CasePriority.MEDIUM);
             case6.setCreatedAt(LocalDateTime.now().minusHours(2));
 
             List<CustomerCase> savedCases = caseRepo.saveAll(List.of(case1, case2, case3, case4, case5, case6));
