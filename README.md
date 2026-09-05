@@ -25,6 +25,13 @@ Trainer: **Debbie Oomen** (D-Data). Based on the original course by [Remsey Mail
    > `.\mvnw.cmd spring-boot:run` on Windows, `./mvnw spring-boot:run` on macOS/Linux.
    > **Java 17 you do need** — that one cannot be bundled.
    >
+   > ⚠️ **If you see `release version 17 not supported`:** Maven is running on an older JDK. Check
+   > with `echo %JAVA_HOME%` (cmd) or `$env:JAVA_HOME` (PowerShell) — it must point at a JDK 17+.
+   > Quick fix for the current terminal:
+   > `$env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-17...-hotspot"`
+   > If you just installed Java 17, **restart VS Code completely** — a new terminal tab is not
+   > enough, VS Code caches the environment from when it started.
+   >
    > **Frontend — running the optional unit tests.** The app itself needs nothing but Live Server.
    > If you want the `vitest` bonus challenges, run `npm install` once inside `project/frontend/`
    > first — dependencies are not included in the download.
