@@ -366,7 +366,7 @@ see in the code was obvious the moment the app ran.
 
 ---
 
-## 🧩 Scenario D — Documentation & Onboarding (Lab 3)
+## 🧩 Scenario D — Documentation & Onboarding
 
 ### 🏦 Scenario
 A new front-end developer joins the team next week. The code works, but almost none of it is documented — which makes onboarding slow and reviews harder.
@@ -411,9 +411,27 @@ Rules:
 | Flags unclear behaviour instead of inventing it | ❌ | ✅ |
 | Useful to someone on day one | ❌ | ✅ |
 
+### ▶️ Step D4 — Check the documentation is actually true
+
+Generated documentation is the easiest thing in this whole exercise to accept without reading,
+because it is fluent and it looks finished. So check it the same way you checked the code.
+
+Take **two** of the doc comments Copilot wrote and read them against the function underneath:
+
+1. Does it describe what the function **actually does**, or what its name suggests it does?
+2. Does it mention parameters, return values or edge cases that don't exist?
+3. Does it state anything it could not have known from the code — a business reason, an SLA,
+   why a decision was made?
+
+> 💡 There is a live example of exactly this failure in the backend of this same project:
+> `CaseService.maskIban()` has a Javadoc promising `NL12 RABO **** **** 89`, while the code
+> actually returns `NL91RABO **** **** 37` — no space. The comment and the code disagree, and the
+> comment is the one that's wrong. Nobody noticed, because comments don't fail tests.
+
 💬 **Discuss:**
 - Which comments would actually help a new joiner, and which are noise?
 - Copilot documents what the code *does* — but can it document what the code *should* do? Who owns that?
+- Wrong documentation is worse than none, because it is believed. How would you catch that in review?
 - Where would you NOT want AI-generated documentation?
 
 ---
@@ -452,6 +470,7 @@ These scenarios map directly to the hands-on labs in `project/README.md`:
 | A — Notification Banner | FE Lab 1 | `js/components/notification.js` |
 | B — XSS Refactoring | FE Lab 2 + FE Lab 4 | `js/components/case-card.js`, `js/components/admin.js` |
 | C — Bug Detection | FE Lab 5 | `js/utils/formatters.js` |
+| D — Documentation & Onboarding | *(no numbered lab — added for this session)* | `js/utils/formatters.js`, `js/api.js` |
 
 ---
 
