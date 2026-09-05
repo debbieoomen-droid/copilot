@@ -69,6 +69,19 @@ http://localhost:8080/api/v1/cases in a browser.
 
 > The terminal stays busy while the server runs — that's normal, not a hang. Nothing opens
 > automatically. <kbd>Ctrl</kbd>+<kbd>C</kbd> stops it; open a **second** terminal if you need one.
+>
+> **What you'll see is raw JSON, not a screen — that's correct.** The backend *is* an API; it has no
+> user interface. The visual app is the frontend, and it runs separately:
+> right-click `project/frontend/index.html` → *Open with Live Server* → http://localhost:5500
+>
+> | | Runs on | What you see |
+> |---|---|---|
+> | **Backend** (`project/backend`) | `localhost:8080` | JSON — the data layer |
+> | **Frontend** (`project/frontend`) | `localhost:5500` | The actual screen |
+>
+> Two halves of one app. Want them talking to each other? Start the backend, set
+> `USE_REAL_BACKEND = true` in `project/frontend/js/config.js`, and reload — the badge top-right
+> flips from *Mock data* to *Live backend*.
 
 ### 🖥️ Frontend group → [`exercises/frontend/`](exercises/frontend/)
 
