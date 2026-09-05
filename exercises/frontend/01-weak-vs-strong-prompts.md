@@ -25,29 +25,6 @@ This functionality must be reliable and production-ready.
 
 ---
 
-## 📂 Before you start — work in a scratch folder
-
-This exercise doesn't use the course project at all. You need a scratch folder anyway to keep your work tidy, so make it now:
-
-1. Create an empty folder somewhere — e.g. `C:\copilot-scratch`
-2. In VS Code: **File → Open Folder** → select it
-
-That's your workspace for this exercise. You'll open `project/frontend/` after the break, for
-Exercise 2.
-
-> **Why it matters, and it really does:** Copilot's Ask mode searches whatever project you have
-> open, on its own, without you typing `#codebase`. The course project already contains a finished
-> `IbanValidator` — so if it's open, Copilot finds it and replies *"this is already implemented,
-> here it is"* instead of writing you a naive one. That is genuinely useful behaviour in real work,
-> but it removes the whole point of this exercise, which is seeing what a lazy prompt produces
-> **from nothing**.
-
-> 💡 **If it happens anyway** and Copilot points you at existing code — notice what just happened.
-> It proved that *context* changes the answer more than wording does. Switch to your scratch folder
-> and run the prompt again to get the comparison this exercise is built on.
-
----
-
 ## 🔹 Step 1 — Weak Prompt
 
 Open GitHub Copilot Chat (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>I</kbd>) and make sure the
