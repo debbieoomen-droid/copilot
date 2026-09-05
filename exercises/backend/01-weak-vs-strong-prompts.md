@@ -135,10 +135,27 @@ returning `true`, the invalid one returning `false`.
 > **Why this works without a project:** since Java 11 you can run a single source file directly.
 > Java compiles it in memory and runs `main` — handy for exactly this kind of throwaway check.
 
-> ⚠️ **Do not save it inside `project/backend/`.** That project already has its own
-> `nl.rabobank.casesummary.validation.IbanValidator`, and dropping a second class with the same
-> name into `src/` gives you a duplicate-class build error in Exercise 2. This exercise is
-> deliberately standalone — you are testing a prompt, not adding a feature.
+> ℹ️ **Why a scratch folder and not the project?** The course project already has its own
+> `IbanValidator` at `src/main/java/nl/rabobank/casesummary/validation/IbanValidator.java`, and
+> Exercise 2 depends on it. Saving your generated class into that folder risks overwriting it.
+> Nothing dramatic — just keep them apart. This exercise is deliberately standalone: you are
+> testing a prompt, not adding a feature.
+>
+> **Copilot itself cannot overwrite anything here.** You are in **Ask** mode, which only writes
+> text into the chat panel — it has no ability to touch your files. That is exactly why Ask is the
+> safe default and where you start. **Agent** mode is the one that edits code, and you will not need
+> it until later today.
+
+### 🔍 Optional: compare yours with the real one
+
+Once it runs, open `project/backend/src/main/java/nl/rabobank/casesummary/validation/IbanValidator.java`
+and read it next to what Copilot gave you. Both implement MOD-97, so this is a fair comparison
+between generated code and code someone sat and thought about.
+
+- Where does the project version handle something yours doesn't — or the other way round?
+- The project version is never called directly. Find `@ValidIban` in `dto/CreateCaseRequest.java`
+  and follow it: the same maths, turned into an annotation that Spring runs on **every** request
+  automatically. That is the distance between a working function and shipped code.
 
 > **If the ✓/✗ characters show up as `?`**, that's just your terminal's character encoding, not a
 > bug in the code. The `true`/`false` values are what matter.
