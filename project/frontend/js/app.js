@@ -128,7 +128,7 @@ async function handleStatusChange(caseId, newStatus) {
   try {
     await updateCaseStatus(caseId, newStatus);
     // Note: the customer name is user-supplied data reaching a notification banner.
-    const changed = state.cases.find((c) => c.id === caseId);
+    const changed = state().cases.find((c) => c.id === caseId);
     showNotification(
       `Zaak van ${changed ? changed.customerName : 'onbekende klant'} bijgewerkt naar "${newStatus}".`,
       'success'
