@@ -47,14 +47,14 @@ This is the entire difference between the two prompts everyone compared in Exerc
 | Move | Weak | Strong |
 |---|---|---|
 | **Give it a role** | *(none)* | "Act as a senior backend developer" |
-| **Name the algorithm or approach** | "validate properly" | "using the official MOD-97 algorithm" |
+| **Name the algorithm or approach** | "validate properly" | "using the official elfproef (11-test)" |
 | **Spell out the edge cases** | *(hoped for)* | "return false when the input is null or blank" |
-| **Define the return value** | *(implied)* | "return true when the remainder is 1" |
-| **Ask for tests** | *(none)* | "include 3 test cases: one valid Dutch IBAN, one valid German, one invalid" |
+| **Define the return value** | *(implied)* | "valid when the sum is divisible by 11" |
+| **Ask for tests** | *(none)* | "include 3 test cases: two valid BSNs, one that fails the elfproef" |
 
 None of it is clever. It's being specific about things you already knew.
 
-**The same five moves work on any task, in any language.** They aren't an IBAN trick.
+**The same five moves work on any task, in any language.** They aren't a BSN trick.
 
 ---
 

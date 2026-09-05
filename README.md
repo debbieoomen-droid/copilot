@@ -48,7 +48,7 @@ Trainer: **Debbie Oomen** (D-Data). Based on the original course by [Remsey Mail
 
 | # | Exercise | Project folder |
 |---|---|---|
-| 1 | [Weak vs strong prompts (Java IBAN validator)](exercises/backend/01-weak-vs-strong-prompts.md) | — |
+| 1 | [Weak vs strong prompts (Java BSN validator)](exercises/backend/01-weak-vs-strong-prompts.md) | — |
 | 2 | [Copilot for backend development (3 modules)](exercises/backend/02-backend-copilot-modules.md) | `project/backend/` |
 | 3 | [Build a custom reviewer agent](exercises/backend/03-build-a-reviewer-agent.md) | `project/backend/` |
 | ⚡ | [Optional: metaprompt analysis](exercises/backend/99-optional-metaprompt.md) | — |
@@ -63,7 +63,7 @@ Start the backend: `cd project/backend` → `mvn spring-boot:run` → http://loc
 
 | # | Exercise | Project folder |
 |---|---|---|
-| 1 | [Weak vs strong prompts (TypeScript IBAN validator)](exercises/frontend/01-weak-vs-strong-prompts.md) | — |
+| 1 | [Weak vs strong prompts (TypeScript BSN validator)](exercises/frontend/01-weak-vs-strong-prompts.md) | — |
 | 2 | [Prompting in the app (RCOF framework)](exercises/frontend/02-prompting-in-the-app.md) | `project/frontend/` |
 | 3 | [Build a custom reviewer agent](exercises/frontend/03-build-a-reviewer-agent.md) | `project/frontend/` |
 
