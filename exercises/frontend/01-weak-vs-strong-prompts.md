@@ -27,11 +27,16 @@ This functionality must be reliable and production-ready.
 
 ## 🔹 Step 1 — Weak Prompt
 
-Open GitHub Copilot Chat (Ask mode) and enter:
+Open GitHub Copilot Chat (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>I</kbd>) and make sure the
+**agents dropdown says Ask**. Then enter this exactly as written — do not improve it:
 
 ```
-Create a function to validate an IBAN
+Create a function to validate IBAN
 ```
+
+> ℹ️ **Ask mode cannot change your files.** It only writes text into the chat panel, so
+> nothing you do in this exercise can touch the project. That is why Ask is the safe default
+> and where everyone starts. **Agent** mode is the one that edits code — later today.
 
 ### 👉 Observe the output
 Take 2–3 minutes to review the result and answer:

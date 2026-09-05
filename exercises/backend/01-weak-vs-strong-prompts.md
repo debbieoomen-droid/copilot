@@ -27,11 +27,16 @@ This functionality must be reliable and production-ready.
 
 ## 🔹 Step 1 — Weak Prompt
 
-Open GitHub Copilot Chat (**Ask** mode) and enter it exactly as written — do not improve it:
+Open GitHub Copilot Chat (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>I</kbd>) and make sure the
+**agents dropdown says Ask**. Then enter this exactly as written — do not improve it:
 
 ```
 Create a function to validate IBAN
 ```
+
+> ℹ️ **Ask mode cannot change your files.** It only writes text into the chat panel, so
+> nothing you do in this exercise can touch the project. That is why Ask is the safe default
+> and where everyone starts. **Agent** mode is the one that edits code — later today.
 
 ### 👉 Observe the output
 Take 2–3 minutes to review the result and answer:
@@ -47,7 +52,7 @@ Take 2–3 minutes to review the result and answer:
 
 Now guide the AI more like a senior developer would.
 
-Use the prompt below — this is the same one on the slide:
+Use the prompt below:
 
 ```
 Act as a senior backend developer.
@@ -135,16 +140,15 @@ returning `true`, the invalid one returning `false`.
 > **Why this works without a project:** since Java 11 you can run a single source file directly.
 > Java compiles it in memory and runs `main` — handy for exactly this kind of throwaway check.
 
+> **If the ✓/✗ characters show up as `?`**, that's just your terminal's character encoding, not a
+> bug in the code. The `true`/`false` values are what matter.
+
+
 > ℹ️ **Why a scratch folder and not the project?** The course project already has its own
 > `IbanValidator` at `src/main/java/nl/rabobank/casesummary/validation/IbanValidator.java`, and
 > Exercise 2 depends on it. Saving your generated class into that folder risks overwriting it.
 > Nothing dramatic — just keep them apart. This exercise is deliberately standalone: you are
 > testing a prompt, not adding a feature.
->
-> **Copilot itself cannot overwrite anything here.** You are in **Ask** mode, which only writes
-> text into the chat panel — it has no ability to touch your files. That is exactly why Ask is the
-> safe default and where you start. **Agent** mode is the one that edits code, and you will not need
-> it until later today.
 
 ### 🔍 Optional: compare yours with the real one
 
@@ -156,9 +160,6 @@ between generated code and code someone sat and thought about.
 - The project version is never called directly. Find `@ValidIban` in `dto/CreateCaseRequest.java`
   and follow it: the same maths, turned into an annotation that Spring runs on **every** request
   automatically. That is the distance between a working function and shipped code.
-
-> **If the ✓/✗ characters show up as `?`**, that's just your terminal's character encoding, not a
-> bug in the code. The `true`/`false` values are what matter.
 
 ### 👉 Now the real question
 
