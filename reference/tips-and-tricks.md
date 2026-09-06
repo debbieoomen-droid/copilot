@@ -305,6 +305,51 @@ Typing `/agents` in chat opens the Configure Custom Agents menu and shows what V
 
 Once it's committed, everyone who clones that repository has the same reviewer.
 
+### You don't have to write these by hand
+
+We built the agent manually in the exercise on purpose — once you have seen what is inside one,
+you know what to adjust when it misbehaves. But from now on, let Copilot do the typing.
+
+| What you want | Ask Copilot to make it | Command Palette | Click path |
+|---|---|---|---|
+| An **agent** | `/create-agent` *(needs Agent mode)* | `Chat: New Custom Agent` | gear icon → **Agents** → New Agent |
+| A **prompt file** | `/create-prompt` | `Chat: New Prompt File` | gear icon → **Prompts** → New Prompt |
+| An **instructions file** | `/create-instruction` | `Chat: New Instructions File` | gear icon → **Instructions** → New Instructions |
+
+Each of the `/create-…` commands asks you a few clarifying questions first, then writes the file
+in the right place with the right frontmatter.
+
+### `/init` — the one to run today
+
+In your own repository, type this in chat:
+
+```
+/init
+```
+
+Copilot reads your project and drafts a `.github/copilot-instructions.md` based on what is
+actually there: your stack, your conventions, your folder layout. It is not an empty template —
+it is a first draft you only have to correct.
+
+**This is the highest-value twenty minutes in this whole document.** Do it once for the repo you
+open every day, and from then on every prompt anyone on your team writes already has your
+standards loaded.
+
+### Workspace or User — decide where it lives
+
+Every one of these can be saved in two places, and the choice matters:
+
+| | Lives in | Who gets it |
+|---|---|---|
+| **Workspace** | `.github/…` in the repo | Everyone who clones it — use this for team standards |
+| **User** | your own profile (`~/.copilot/agents`, and the equivalent for prompts and instructions) | Only you, but in **every** project you open |
+
+A reviewer that matches your team's conventions belongs in the workspace. Your own personal way of
+reviewing belongs in your user profile — write it once and you have it for the rest of your career.
+
+> 💡 VS Code also reads `.claude/agents/` and `CLAUDE.md`. If you or a colleague already built
+> something for another AI coding tool, those files work here too.
+
 ---
 
 ## 8. The verification habit
@@ -377,10 +422,12 @@ If it didn't read the file that decides the answer, the answer is a guess wearin
 
 **Write `.github/copilot-instructions.md` for the repository you work in every day.**
 
-Use the prompt in [section 3.7](#37-write-your-teams-instructions-file) to draft it from your own
-codebase, then edit it by hand.
+The fastest route: open that repository and type **`/init`** in Copilot Chat. It reads your project
+and drafts the file from what is actually there. Then edit it by hand — that part is still yours.
+Prefer to steer it yourself? Use the prompt in
+[section 3.7](#37-write-your-teams-instructions-file) instead.
 
-It costs twenty minutes, once. After that, every prompt anyone on your team writes already has your
+It costs twenty minutes, once — and with `/init`, closer to five. After that, every prompt anyone on your team writes already has your
 standards loaded. That is the difference between a tool you use and a tool your team has configured.
 
 **And then the second one:** think of the review comment you leave on pull requests over and over.

@@ -50,6 +50,10 @@ You can also press the **+ (Add Context)** button in the chat box, or drag a fil
 | `/clear` | Start a fresh conversation (drop the history) |
 | `/agents` | Open the Configure Custom Agents menu — where your agent files live |
 | `/prompts`, `/instructions`, `/skills` | The same, for the other customization types |
+| `/init` | **Read this project and draft a `copilot-instructions.md` for it** |
+| `/create-agent` | Have Copilot write an agent file for you (needs Agent mode) |
+| `/create-prompt` | The same, for a prompt file |
+| `/create-instruction` | The same, for an instructions file |
 
 Put the command and your text on **one line**: `/tests cover the null and empty-string cases`.
 
@@ -101,8 +105,14 @@ literal text — `@` is only for the built-in participants above.
 Copilot reads these from **the folder you opened in VS Code**. Open the wrong folder and none of
 them load — which is silent, so it's worth checking.
 
+You don't have to write these by hand: `/create-agent`, `/create-prompt` and `/create-instruction`
+have Copilot generate the file, and the Command Palette has `Chat: New Custom Agent` and friends.
+The gear icon in the Chat view shows all of them in one place, where you also choose **Workspace**
+(in the repo, everyone gets it) or **User** (your own profile, in every project you open).
+
 **Highest return for the least effort:** write `.github/copilot-instructions.md` for the repo you
-work in every day. It costs twenty minutes once.
+work in every day. Type `/init` and Copilot drafts it from your actual codebase; you only correct
+it. Twenty minutes once — closer to five with `/init`.
 
 ---
 
