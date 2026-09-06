@@ -1,8 +1,12 @@
 # Rabobank Copilot Instructions — Vanilla HTML/CSS/JS
 
-This file provides GitHub Copilot with the Rabobank coding standards used
-throughout the labs.  Place it in `.github/` so Copilot picks it up
-automatically in VS Code (requires "Use Instruction Files" enabled).
+This file gives GitHub Copilot the Rabobank coding standards used throughout the
+labs. VS Code picks it up automatically from the `.github/` folder of the
+workspace you have open — so open `project/frontend/`, **not** the repository root.
+
+Nothing is added to your prompts that you can see, which is the point. To confirm
+it was applied, expand the collapsed summary line above a chat answer: this file
+appears among the references.
 
 ---
 
