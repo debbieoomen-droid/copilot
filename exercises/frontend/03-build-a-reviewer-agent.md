@@ -41,7 +41,21 @@ A custom agent is a Markdown file that defines:
 
 ## 📂 Step 1 — Create the Agent File
 
-In the project root, create:
+In the **Explorer**, create this folder structure at the root of the folder you opened in VS Code
+(`project/frontend/`) — the `agents` folder does not exist yet, so make it:
+
+```
+.github/
+  agents/
+```
+
+Inside `agents/`, create a new file:
+
+```
+frontend-reviewer-ask.agent.md
+```
+
+Your file path should be:
 
 ```
 .github/agents/frontend-reviewer-ask.agent.md
@@ -175,6 +189,87 @@ Observe the full review output.
 - Why does asking questions *before* reviewing improve the output?
 - Which critical issue would have been missed without the banking context?
 - When would you use this agent vs. a plain Copilot prompt?
+
+---
+
+## 🚀 Step 5 — Now let Copilot build the next one
+
+You wrote that file by hand on purpose: now you know what is inside one, so you know what to adjust
+when an agent misbehaves. From here on, stop typing frontmatter *from scratch* — let Copilot draft it and then adjust.
+
+### 5a — Generate a skill
+
+A **skill** is knowledge, not a persona. You never call it — Copilot reads its description, decides
+your task matches, and pulls it in. Make one for something your team already knows:
+
+Switch the agents dropdown to **Agent** mode and send:
+
+```
+/create-skill
+
+Create a skill that captures how this project handles user data in the DOM:
+never innerHTML with user-supplied values, always textContent for text nodes,
+build elements with document.createElement, and mask IBANs in the UI with maskIBAN
+from utils/formatters.js.
+```
+
+Copilot asks a couple of questions, then writes `.github/skills/<name>/SKILL.md`.
+
+**Open it and look at the `description` line.** That line is not documentation — it is the trigger.
+Copilot reads only the name and description to decide whether this skill is relevant, and loads the
+body only if it decides yes. Write a vague description and this file will never be used again.
+
+### 5b — Generate an agent
+
+```
+/create-agent
+
+Create an agent that reviews vanilla JavaScript in this project for XSS, PII exposure
+and accessibility. It must ask me 3 questions about where the data comes from and who
+uses the UI before it reviews anything, and report findings as Critical / Improvements /
+What is solid.
+```
+
+Compare the result with the file you wrote by hand. Same structure, thirty seconds instead of five
+minutes — because you already knew what you were looking at.
+
+### 5c — Wire the skill into the agent
+
+There is **no `skills:` field** in agent frontmatter. Copilot decides on its own whether a skill is
+relevant, which means it might not. If you want to be sure, say so explicitly — an agent may
+reference other files, and yours has the `read` tool:
+
+```markdown
+Before you review anything, read
+[our DOM safety rules](../skills/dom-safety/SKILL.md)
+and apply them to your findings.
+```
+
+**Where does that go?** Open the agent file `/create-agent` just wrote, and paste it as the first
+line of the system prompt — directly below the closing `---` of the frontmatter. Save.
+
+Adjust the path to the folder name `/create-skill` actually used.
+
+> ℹ️ **No `tools:` line in your generated agent?** That is fine and common — it then has the
+> default toolset and can already read files. Only if a `tools:` list *is* present does it need to
+> include `read`.
+
+### ▶️ Verify
+
+Pick your generated agent from the dropdown and point it at the vulnerable panel:
+
+```
+review #admin.js
+```
+
+Then **expand the collapsed summary line** above the answer.
+
+- `SKILL.md` in the references → the link worked; it read your team's rules before judging.
+- Not there → check the relative path, and that the agent may `read`.
+
+💬 **Discuss:** two ways to reach a skill. Hoping the description matches is convenient but not
+guaranteed. Linking it from the agent is explicit and nearly always works. In a bank, which of
+those two would you want your review process to depend on?
 
 ---
 

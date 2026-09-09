@@ -12,11 +12,21 @@
 
 ## 📍 What we're doing in today's session
 
-**Today, in the room:** Step 0 first (8 min, everyone), then **pick two** of Exercise **1.1**,
-**1.2** and **1.5**. Each one now ends with a ▶️ Verify step where you actually run what Copilot
-wrote — do not skip it, that is the point of the block.
+**Today, in the room:** Step 0 first (8 min, everyone), then **pick two** of Exercise **1.3**,
+**1.5** and **3.1**.
 
-If you finish both, try **2.1** or **2.2** — those need no coding, just read and judge Copilot's answer.
+> ▶️ **You do not need to start the server today.** Nothing in these three requires
+> `mvn spring-boot:run`. The most you will run is `mvn test`, and 3.1 needs no build at all —
+> it is reading and judging code. Exercises **1.1**, **1.2** and **1.4** do need a running
+> application, so they are left for your own time.
+
+| | What you do | How you check it |
+|---|---|---|
+| **1.3** | Refactor `maskIban()` — where the Javadoc and the code disagree about what it returns | Decide which one is the contract, then write a test that enforces it |
+| **1.5** | Write unit tests for business rules that already exist | `mvn test`, then delete the guard and watch a test go red |
+| **3.1** | Find every security hole in a piece of Copilot-generated code | No build — you read it, then check Copilot's analysis against your own |
+
+If you finish both, try **2.1** or **2.2** — those need no coding either, just read and judge Copilot's answer.
 
 **Everything else in this file is yours to keep.** Modules 2 and 3 are a complete follow-on
 curriculum — architecture, documentation, reviews, security, credentials, and responsible use —
@@ -282,12 +292,68 @@ New requirements:
 - Output format: "NL91 RABO **** **** 37"
   (chars 1-4, a space, chars 5-8, masked middle, last 2)
 - Update the Javadoc so it matches what the method really returns
-- Add a @VisibleForTesting comment so it can be unit-tested later
-- Keep the method private
+- Make the method package-private so it can be unit-tested from the same package
 - Add a Javadoc explaining the format
 
 Performance context: this method is called per-row in paginated results of up to 500 cases.
 ```
+
+### ▶️ Verify — decide which one is the contract
+
+No server needed. Work it out on paper first, then prove it.
+
+**1. Read the two against each other.** The Javadoc promises `NL12 RABO **** **** 89` — note the
+space after the country code. Take a real IBAN from `DataLoader.java` — `NL91RABO0315273637` — and
+trace the *original* code by hand:
+
+```
+iban.substring(0, 8)              → "NL91RABO"      (no space!)
++ " **** **** "                   → "NL91RABO **** **** "
++ iban.substring(iban.length()-2) → "NL91RABO **** **** 37"
+```
+
+The comment shows a space the code has never produced. **They disagree, and only one of them can be
+the contract.** You have to decide which: change the comment to describe the cramped output, or
+change the code to produce the readable format the comment always promised. This exercise takes the
+second option — the documented format is the one a customer-service agent can actually read.
+
+**2. Now make the decision executable.** Your refactor made the method package-private. Add a test
+in the matching package — you will need to create the `service` folder under `src/test/java`:
+
+`src/test/java/nl/rabobank/casesummary/service/CaseServiceMaskIbanTest.java`
+
+```java
+package nl.rabobank.casesummary.service;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class CaseServiceMaskIbanTest {
+    @Test
+    void maskIban_matchesItsDocumentedFormat() {
+        assertEquals("NL91 RABO **** **** 37",
+            new CaseService(null).maskIban("NL91RABO0315273637"));
+    }
+}
+```
+
+```bash
+mvn test
+```
+
+- **Green** → the method and its documentation finally agree, and now something enforces that.
+- **Red** → the message names both sides, e.g.
+  `expected: <NL91 RABO **** **** 37> but was: <NL91RABO **** **** 37>`. That single line tells you
+  which half you still have wrong.
+
+> ⚠️ Put the test in `…/service/`, not next to `IbanValidatorTest` in `…/validation/`. A
+> package-private method is only visible from its own package — put it in the wrong folder and you
+> get "maskIban() has private access", which does not obviously mean "wrong folder".
+
+💬 **Discuss:** for as long as this code has existed, the comment and the code have contradicted each
+other, and nothing complained — because a comment cannot fail a test. You have just turned a claim
+in prose into something that breaks the build when it stops being true. Ask Copilot to document
+code and it will describe what the code *does*; deciding what it *should* do is still yours.
 
 ### 💬 Discussion
 - Did Copilot preserve the existing return value contract (`String`)?
@@ -683,6 +749,37 @@ Then write the corrected version that:
 - Adds input length validation
 - Uses pagination
 ```
+
+### ▶️ Verify — score Copilot's answer against the real list
+
+Nothing to build here. The work is judging the judge.
+
+There are **six** things wrong with that endpoint. Copilot will find some of them. Tick off what it
+actually caught:
+
+| # | The defect | Needs knowledge of… |
+|---|---|---|
+| 1 | **JPQL injection** — user input concatenated into the query string | general security |
+| 2 | **Returns the JPA entity**, so the **raw IBAN** goes out over the wire | **this codebase** |
+| 3 | **No pagination** — one request can return every case in the database | general |
+| 4 | **No input validation** — an empty string, or a 10,000-character name | general |
+| 5 | **Controller talks to `entityManager` directly**, bypassing the service layer | **this project's rules** |
+| 6 | **No audit trail** that a name search happened at all | banking context |
+
+> ⚠️ Careful how you phrase defect 6. This project's own rules say *"Log case/customer IDs, never full names or raw IBANs"* — so the fix is **not** "log the search term". It is to record that a search happened, by whom, and which case IDs came back.
+
+### 👉 The question that matters
+
+Look at which ones it missed. Copilot almost always catches **1** — injection is in every textbook
+it ever read. The interesting ones are **2** and **5**.
+
+Number 2 is a data leak that you can only see if you know `CaseSummaryDTO` exists and that
+`maskIban()` is the reason it exists. Number 5 breaks a layering rule written down in
+`.github/copilot-instructions.md` — in *this* repository.
+
+💬 **Discuss:** it is strong on published knowledge and weak on your situation. That gap is not
+something a better prompt fixes on its own — it is what instruction files, and you, are for.
+Try the same prompt again with `#codebase` attached and see whether 2 and 5 appear.
 
 ### 💬 Discussion
 - Did you spot the SQL/JPQL injection before asking Copilot?

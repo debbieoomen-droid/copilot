@@ -315,6 +315,7 @@ you know what to adjust when it misbehaves. But from now on, let Copilot do the 
 | An **agent** | `/create-agent` *(needs Agent mode)* | `Chat: New Custom Agent` | gear icon → **Agents** → New Agent |
 | A **prompt file** | `/create-prompt` | `Chat: New Prompt File` | gear icon → **Prompts** → New Prompt |
 | An **instructions file** | `/create-instruction` | `Chat: New Instructions File` | gear icon → **Instructions** → New Instructions |
+| A **skill** | `/create-skill` | — | gear icon → **Skills** → New Skill |
 
 Each of the `/create-…` commands asks you a few clarifying questions first, then writes the file
 in the right place with the right frontmatter.

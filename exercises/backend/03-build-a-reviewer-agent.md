@@ -348,6 +348,85 @@ After answering, observe the full review output.
 
 ---
 
+## 🚀 Step 7 — Now let Copilot build the next one
+
+You wrote that file by hand on purpose: now you know what is inside one, so you know what to adjust
+when an agent misbehaves. From here on, stop typing frontmatter *from scratch* — let Copilot draft it and then adjust.
+
+### 7a — Generate a skill
+
+A **skill** is knowledge, not a persona. You never call it — Copilot reads its description, decides
+your task matches, and pulls it in. Make one for something your team already knows:
+
+Switch the agents dropdown to **Agent** mode and send:
+
+```
+/create-skill
+
+Create a skill that captures how this project handles customer data:
+IBANs are masked in the service layer before they leave it, raw IBANs are never
+logged, and a BSN is never logged at all. Reference the maskIban pattern in CaseService.
+```
+
+Copilot asks a couple of questions, then writes `.github/skills/<name>/SKILL.md`.
+
+**Open it and look at the `description` line.** That line is not documentation — it is the trigger.
+Copilot reads only the name and description to decide whether this skill is relevant, and loads the
+body only if it decides yes. Write a vague description and this file will never be used again.
+
+### 7b — Generate an agent
+
+```
+/create-agent
+
+Create an agent that reviews Java code in this project against Rabobank banking
+standards. It must ask me 3 questions about the code's purpose and data sensitivity
+before it reviews anything, and report findings as Critical / Improvements / What is solid.
+```
+
+Compare the result with the file you wrote by hand. Same structure, thirty seconds instead of five
+minutes — because you already knew what you were looking at.
+
+### 7c — Wire the skill into the agent
+
+There is **no `skills:` field** in agent frontmatter. Copilot decides on its own whether a skill is
+relevant, which means it might not. If you want to be sure, say so explicitly — an agent may
+reference other files, and yours has the `read` tool:
+
+```markdown
+Before you review anything, read
+[our customer data rules](../skills/customer-data/SKILL.md)
+and apply them to your findings.
+```
+
+**Where does that go?** Open the agent file `/create-agent` just wrote, and paste it as the first
+line of the system prompt — directly below the closing `---` of the frontmatter. Save.
+
+Adjust the path to the folder name `/create-skill` actually used.
+
+> ℹ️ **No `tools:` line in your generated agent?** That is fine and common — it then has the
+> default toolset and can already read files. Only if a `tools:` list *is* present does it need to
+> include `read`.
+
+### ▶️ Verify
+
+Pick your generated agent from the dropdown and point it at a file that touches customer data:
+
+```
+review #CaseService.java
+```
+
+Then **expand the collapsed summary line** above the answer.
+
+- `SKILL.md` in the references → the link worked; it read your team's rules before judging.
+- Not there → check the relative path, and that the agent may `read`.
+
+💬 **Discuss:** two ways to reach a skill. Hoping the description matches is convenient but not
+guaranteed. Linking it from the agent is explicit and nearly always works. In a bank, which of
+those two would you want your review process to depend on?
+
+---
+
 ## 🔑 The Design Decisions Explained
 
 | Decision | Why it matters |

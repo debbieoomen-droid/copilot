@@ -54,6 +54,7 @@ You can also press the **+ (Add Context)** button in the chat box, or drag a fil
 | `/create-agent` | Have Copilot write an agent file for you (needs Agent mode) |
 | `/create-prompt` | The same, for a prompt file |
 | `/create-instruction` | The same, for an instructions file |
+| `/create-skill` | The same, for a skill — a knowledge pack Copilot reaches for by itself |
 
 Put the command and your text on **one line**: `/tests cover the null and empty-string cases`.
 
@@ -105,8 +106,8 @@ literal text — `@` is only for the built-in participants above.
 Copilot reads these from **the folder you opened in VS Code**. Open the wrong folder and none of
 them load — which is silent, so it's worth checking.
 
-You don't have to write these by hand: `/create-agent`, `/create-prompt` and `/create-instruction`
-have Copilot generate the file, and the Command Palette has `Chat: New Custom Agent` and friends.
+You don't have to write these by hand: `/create-agent`, `/create-prompt`, `/create-instruction` and
+`/create-skill` have Copilot generate the file, and the Command Palette has `Chat: New Custom Agent` and friends.
 The gear icon in the Chat view shows all of them in one place, where you also choose **Workspace**
 (in the repo, everyone gets it) or **User** (your own profile, in every project you open).
 
