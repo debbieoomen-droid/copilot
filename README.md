@@ -125,7 +125,7 @@ Open it in your browser (download the repo first, then double-click the file). I
 |---|---|
 | `exercises/` | All exercises, split per group (see above) |
 | `project/` | The **Rabobank Case Summary** app — your sandbox: vanilla JS frontend + Java 17 / Spring Boot 3 backend, with deliberately planted flaws to fix. Full walkthrough in [`project/README.md`](project/README.md) |
-| `project/.github/` | Live examples of Copilot customization: instructions, agents, prompts, skills |
+| `.github/` | Live examples of Copilot customization: instructions, agents, prompts, skills. Note that Copilot only loads these when you open the **repository root** — during the exercises you open `project/backend/` or `project/frontend/`, which have their own |
 | `reference/` | **[Do it yourself — tips, tricks & prompt templates](reference/tips-and-tricks.md)** ← everything from the session in one file · [slash-command cheatsheet](reference/copilot-cheatsheet.md) · [useful websites](reference/handy-websites.md) · [customization guide](reference/copilot-customization-guide.html) |
 | `evaluation.html` | Evaluation form — filled in at the end of the session |
 
